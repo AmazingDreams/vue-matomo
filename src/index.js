@@ -1,21 +1,10 @@
-import Hello from './Hello.vue'
-import HelloJsx from './Hello.jsx'
+import VuePiwik from './VuePiwik'
+import bootstrap from './bootstrap'
 
-function plugin (Vue) {
-  Vue.component('hello', Hello)
-  Vue.component('hello-jsx', HelloJsx)
-}
-
-// Install by default if using the script tag
-if (typeof window !== 'undefined' && window.Vue) {
-  window.Vue.use(plugin)
-}
-
-export default plugin
-const version = '__VERSION__'
-// Export all components too
-export {
-  Hello,
-  HelloJsx,
-  version
+export default function install (Vue, options = {}) {
+  bootstrap(options)
+    .then(() => {
+      const piwik = new VuePiwik(options, window._paq)
+      Vue.prototype.$piwik = piwik
+    })
 }
