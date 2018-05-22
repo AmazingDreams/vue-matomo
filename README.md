@@ -20,7 +20,14 @@ import VuePiwik from 'vue-piwik'
 // You need a specific loader for CSS files like https://github.com/webpack/css-loader
 import 'vue-piwik/dist/vue-piwik.css'
 
-Vue.use(VuePiwik)
+Vue.use(VuePiwik, {
+  host: 'https://matomo.example.com',
+  siteId: 5,
+  router: router // Enables automatically registering pageviews on the router
+})
+
+// Now you can access piwik api in components through
+this.$piwik
 ```
 
 ### Browser
