@@ -2,8 +2,14 @@ language: node_js
 node_js:
 - "8"
 
-before_script:
+addons:
+  apt:
+    update: true
+
+before_install:
 - apt install yarn
+
+before_script:
 - npm run build:dll
 
 deploy:
