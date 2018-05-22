@@ -1,0 +1,8 @@
+deploy:
+  provider: npm
+  email: npm@dennisruhe.nl
+  api_key:
+    secure: ppuOD1i4bExFnHdyPxn7wNsnqubgXAHnMGtNdmS6M9uf18mwX/tpkh7z+eFufD/WOvCMmr76KaXK32PiCZyR+aHkCWX7fXodDKQCHXX6w7rvefMtkVnlbr1tkwalynljWm9Opmv13xVAl7pr40JFEeCH79+ZXjtJfSgiaEG3sdA9A6YH7TZm2b13dXB4OO0Y7Mww7qfeMhJHLiAfvCu2JeFcA1awDqMG+gQ/PJhMhOdkq4f4AVL5SblHbGKVJjy5KO9PMlrzP4Eo/zGpo784Z1tnFvXkfxxpfFn6Gpxw3jUIUNaT+CR3pqNH3UAkLNCgKgwrSSIQhbQS3JmNrZGIAtKPhBTFZWWvrkyyoaURwCIGSpuSzyD2hLOVlA4h398Npl7p7wKDAsZfmxnMUbhhcT2pYbDQQ9K4CINGHEnBicQFXw3u5+4MzfplQ7E/EH0t/go2uHaf0wkJs9PMjva6jUZg/c97DvfVl65G4l1fjczwrp2LpfPNLFbpOQXYyfrQB0On6bFhMK9Zm0xBw+WLluR+EbEkN4zLCMWTRLeqR27QxTxlD90e/ns2548PYRlqH3y799qCPBijclFZqz66Bh6o046teNEAYl8PGG5REF+i+tz2v7pYz7aM6iKnlFv+/pRX7xl08G3neV7FAKV3iFbRa1v7Omeu8FgcY7NMfgY=
+  on:
+    tags: true
+    repo: AmazingDreams/vue-piwik
