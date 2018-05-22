@@ -3,6 +3,7 @@ node_js:
 - "8"
 
 before_script:
+- apt install yarn
 - npm run build:dll
 
 deploy:
