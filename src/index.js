@@ -6,5 +6,8 @@ export default function install (Vue, options = {}) {
     .then(() => {
       const piwik = new VuePiwik(options, window._paq)
       Vue.prototype.$piwik = piwik
+
+      // Register first page view
+      piwik.trackPageView()
     })
 }

@@ -1,6 +1,6 @@
 {
   "name": "vue-piwik",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "Link your Piwik/Matomo installation",
   "author": "Dennis Ruhe <dennis@amazingsystems.nl>",
   "main": "dist/vue-piwik.common.js",
@@ -8,6 +8,9 @@
   "browser": "dist/vue-piwik.js",
   "unpkg": "dist/vue-piwik.js",
   "style": "dist/vue-piwik.css",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
   "files": [
     "dist",
     "src"
