@@ -6,6 +6,9 @@ node_js:
 - "5"
 - "4"
 
+before_script:
+- npm run build:dll
+
 deploy:
   provider: npm
   email: npm@dennisruhe.nl
