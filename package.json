@@ -22,7 +22,6 @@
     "lint": "yon run lint:js && yon run lint:css",
     "lint:js": "eslint --ext js --ext jsx --ext vue src test/**/*.spec.js test/*.js build",
     "lint:js:fix": "yon run lint:js -- --fix",
-    "lint:css": "stylelint src/**/*.{vue,css}",
     "lint:staged": "lint-staged",
     "pretest": "yon run lint",
     "test": "cross-env BABEL_ENV=test karma start test/karma.conf.js --single-run",
