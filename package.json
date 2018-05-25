@@ -1,6 +1,6 @@
 {
   "name": "vue-piwik",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Link your Piwik/Matomo installation",
   "author": "Dennis Ruhe <dennis@amazingsystems.nl>",
   "main": "dist/vue-piwik.common.js",

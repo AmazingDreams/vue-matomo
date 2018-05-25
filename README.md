@@ -30,6 +30,8 @@ Vue.use(VuePiwik, {
 this.$piwik
 ```
 
+For available operations see the [piwik api docs](https://developer.matomo.org/api-reference/tracking-javascript)
+
 ### Browser
 
 ```html
