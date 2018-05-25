@@ -3,7 +3,7 @@ import bootstrap from './bootstrap'
 export default function install (Vue, options = {}) {
   bootstrap(options)
     .then(() => {
-      const {host, siteId} = options
+      const { host, siteId } = options
       const piwik = window.Piwik.getTracker(host + '/piwik.php', siteId)
 
       // Assign piwik to Vue

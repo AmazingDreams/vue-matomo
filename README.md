@@ -17,8 +17,6 @@ npm install --save vue-piwik
 ```js
 import Vue from 'vue'
 import VuePiwik from 'vue-piwik'
-// You need a specific loader for CSS files like https://github.com/webpack/css-loader
-import 'vue-piwik/dist/vue-piwik.css'
 
 Vue.use(VuePiwik, {
   host: 'https://matomo.example.com',
@@ -28,6 +26,12 @@ Vue.use(VuePiwik, {
 
 // Now you can access piwik api in components through
 this.$piwik
+
+// or
+window._paq.push
+
+// or through
+window.Piwik.getTracker
 ```
 
 For available operations see the [piwik api docs](https://developer.matomo.org/api-reference/tracking-javascript)
