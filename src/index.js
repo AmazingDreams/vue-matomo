@@ -9,6 +9,10 @@ export default function install (Vue, options = {}) {
       // Assign piwik to Vue
       Vue.prototype.$piwik = piwik
 
+      if (options.requireConsent) {
+        piwik.requireConsent()
+      }
+
       // Register first page view
       piwik.trackPageView()
 
