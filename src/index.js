@@ -15,6 +15,8 @@ export default function install (Vue, options = {}) {
       // Track page navigations if router is specified
       if (options.router) {
         options.router.afterEach((to, from) => {
+          // Unfortunately the window location is not yet updated here
+          // We need to make our own ulr using the data provided by the router
           const loc = window.location
           const url = loc.protocol + '://' + loc.host + to.path
 
