@@ -14,8 +14,12 @@ export default function install (Vue, options = {}) {
 
       // Track page navigations if router is specified
       if (options.router) {
-        options.router.afterEach((from, to) => {
-          piwik.trackPageView()
+        options.router.afterEach((to, from) => {
+          const loc = window.location
+          const url = loc.protocol + '://' + loc.host + to.path
+
+          piwik.setCustomUrl(url)
+          piwik.trackPageView(to.name)
         })
       }
     })
