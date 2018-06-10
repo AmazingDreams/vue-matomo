@@ -23,11 +23,16 @@ import VueMatomo from 'vue-matomo'
 Vue.use(VueMatomo, {
   host: 'https://matomo.example.com',
   siteId: 5,
-  router: router // Enables automatically registering pageviews on the router
+
+  // Enables automatically registering pageviews on the router
+  router: router,
+
+  // Require consent before sending tracking information to matomo
+  requireConsent: true
 })
 
 // Now you can access piwik api in components through
-this.$piwik
+this.$matomo
 
 // or
 window._paq.push
