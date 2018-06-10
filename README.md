@@ -1,15 +1,15 @@
 # VuePiwik
 
-[![npm](https://img.shields.io/npm/v/vue-piwik.svg)](https://www.npmjs.com/package/vue-piwik)
+[![npm](https://img.shields.io/npm/v/vue-matomo.svg)](https://www.npmjs.com/package/vue-matomo)
 [![vue2](https://img.shields.io/badge/vue-2.x-brightgreen.svg)](https://vuejs.org/)
-[![Build Status](https://travis-ci.org/AmazingDreams/vue-piwik.svg?branch=master)](https://travis-ci.org/AmazingDreams/vue-piwik)
+[![Build Status](https://travis-ci.org/AmazingDreams/vue-matomo.svg?branch=master)](https://travis-ci.org/AmazingDreams/vue-matomo)
 
 > Link your Piwik/Matomo installation
 
 ## Installation
 
 ```bash
-npm install --save vue-piwik
+npm install --save vue-matomo
 ```
 
 ## Usage
@@ -18,9 +18,9 @@ npm install --save vue-piwik
 
 ```js
 import Vue from 'vue'
-import VuePiwik from 'vue-piwik'
+import VueMatomo from 'vue-matomo'
 
-Vue.use(VuePiwik, {
+Vue.use(VueMatomo, {
   host: 'https://matomo.example.com',
   siteId: 5,
   router: router // Enables automatically registering pageviews on the router
@@ -36,17 +36,17 @@ window._paq.push
 window.Piwik.getTracker
 ```
 
-For available operations see the [piwik api docs](https://developer.matomo.org/api-reference/tracking-javascript)
+For available operations see the [matomo api docs](https://developer.matomo.org/api-reference/tracking-javascript)
 
 ### Browser
 
 ```html
 <!-- Include after Vue -->
 <!-- Local files -->
-<script src="vue-piwik/dist/vue-piwik.js"></script>
+<script src="vue-matomo/dist/vue-matomo.js"></script>
 
 <!-- From CDN -->
-<script src="https://unpkg.com/vue-piwik"></script>
+<script src="https://unpkg.com/vue-matomo"></script>
 ```
 
 ### Build

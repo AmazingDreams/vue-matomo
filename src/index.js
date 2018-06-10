@@ -4,17 +4,18 @@ export default function install (Vue, options = {}) {
   bootstrap(options)
     .then(() => {
       const { host, siteId } = options
-      const piwik = window.Piwik.getTracker(host + '/piwik.php', siteId)
+      const matomo = window.Piwik.getTracker(host + '/piwik.php', siteId)
 
-      // Assign piwik to Vue
-      Vue.prototype.$piwik = piwik
+      // Assign matomo to Vue
+      Vue.prototype.$piwik = matomo
+      Vue.prototype.$matomo = matomo
 
       if (options.requireConsent) {
-        piwik.requireConsent()
+        matomo.requireConsent()
       }
 
       // Register first page view
-      piwik.trackPageView()
+      matomo.trackPageView()
 
       // Track page navigations if router is specified
       if (options.router) {
@@ -24,8 +25,8 @@ export default function install (Vue, options = {}) {
           const loc = window.location
           const url = loc.protocol + '://' + loc.host + to.path
 
-          piwik.setCustomUrl(url)
-          piwik.trackPageView(to.name)
+          matomo.setCustomUrl(url)
+          matomo.trackPageView(to.name)
         })
       }
     })

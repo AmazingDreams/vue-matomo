@@ -1,13 +1,13 @@
 {
-  "name": "vue-piwik",
+  "name": "vue-matomo",
   "version": "0.1.6",
   "description": "Link your Piwik/Matomo installation",
   "author": "Dennis Ruhe <dennis@amazingsystems.nl>",
-  "main": "dist/vue-piwik.common.js",
-  "module": "dist/vue-piwik.esm.js",
-  "browser": "dist/vue-piwik.js",
-  "unpkg": "dist/vue-piwik.js",
-  "style": "dist/vue-piwik.css",
+  "main": "dist/vue-matomo.common.js",
+  "module": "dist/vue-matomo.esm.js",
+  "browser": "dist/vue-matomo.js",
+  "unpkg": "dist/vue-matomo.js",
+  "style": "dist/vue-matomo.css",
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
   },
@@ -127,12 +127,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AmazingDreams/vue-piwik.git"
+    "url": "git+https://github.com/AmazingDreams/vue-matomo.git"
   },
   "bugs": {
-    "url": "https://github.com/AmazingDreams/vue-piwik/issues"
+    "url": "https://github.com/AmazingDreams/vue-matomo/issues"
   },
-  "homepage": "https://github.com/AmazingDreams/vue-piwik#readme",
+  "homepage": "https://github.com/AmazingDreams/vue-matomo#readme",
   "license": {
     "type": "MIT",
     "url": "http://www.opensource.org/licenses/mit-license.php"
