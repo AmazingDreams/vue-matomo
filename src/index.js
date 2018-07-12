@@ -15,7 +15,9 @@ export default function install (Vue, options = {}) {
       }
 
       // Register first page view
-      matomo.trackPageView()
+      if (options.trackInitialView) {
+          matomo.trackPageView()
+      }
 
       // Track page navigations if router is specified
       if (options.router) {
