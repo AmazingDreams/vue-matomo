@@ -1,6 +1,13 @@
 import bootstrap from './bootstrap'
 
-export default function install (Vue, options = {}) {
+const defaultOptions = {
+  requireConsent: false,
+  trackInitialView: true
+}
+
+export default function install (Vue, setupOptions = {}) {
+  const options = Object.assign({}, defaultOptions, setupOptions)
+
   bootstrap(options)
     .then(() => {
       const { host, siteId } = options
@@ -16,7 +23,7 @@ export default function install (Vue, options = {}) {
 
       // Register first page view
       if (options.trackInitialView) {
-          matomo.trackPageView()
+        matomo.trackPageView()
       }
 
       // Track page navigations if router is specified
