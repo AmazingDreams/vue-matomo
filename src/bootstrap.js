@@ -16,7 +16,10 @@ export default function (options) {
   })
 
   scriptPromise.catch((error) => {
-    console.error('Error loading script', error)
+    const msg = '[vue-matomo] An error occurred trying to load ' + error.target.src + '. ' +
+            'If the file exists you may have an ad- or trackingblocker enabled.'
+
+    console.error(msg)
   })
 
   return scriptPromise
