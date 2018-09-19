@@ -1,6 +1,6 @@
 export default function (options) {
-  const { host, trackerName } = options
-  const filename = `${host}/${trackerName || 'piwik'}.js`
+  const { host, trackerFileName } = options
+  const filename = `${host}/${trackerFileName}.js`
 
   const scriptPromise = new Promise((resolve, reject) => {
     const script = document.createElement('script')
