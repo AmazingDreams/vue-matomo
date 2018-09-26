@@ -34,12 +34,12 @@ Vue.use(VueMatomo, {
 
   // Whether to track the initial page view
   // Default: true
-  trackInitialView: true
+  trackInitialView: true,
 
   // Changes the default .js and .php endpoint's filename
   // Default: 'piwik'
   trackerFileName: 'piwik'
-})
+});
 
 // Now you can access piwik api in components through
 this.$matomo
