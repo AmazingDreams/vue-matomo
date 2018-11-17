@@ -1,6 +1,6 @@
 {
   "name": "vue-matomo",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Link your Piwik/Matomo installation",
   "author": "Dennis Ruhe <dennis@amazingsystems.nl>",
   "main": "dist/vue-matomo.common.js",
