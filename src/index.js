@@ -1,10 +1,18 @@
 import bootstrap from './bootstrap'
 
-export default function install (Vue, options = {}) {
+const defaultOptions = {
+  requireConsent: false,
+  trackInitialView: true,
+  trackerFileName: 'piwik'
+}
+
+export default function install (Vue, setupOptions = {}) {
+  const options = Object.assign({}, defaultOptions, setupOptions)
+
   bootstrap(options)
     .then(() => {
-      const { host, siteId } = options
-      const matomo = window.Piwik.getTracker(host + '/piwik.php', siteId)
+      const { host, siteId, trackerFileName } = options
+      const matomo = window.Piwik.getTracker(`${host}/${trackerFileName}.php`, siteId)
 
       // Assign matomo to Vue
       Vue.prototype.$piwik = matomo
@@ -15,7 +23,9 @@ export default function install (Vue, options = {}) {
       }
 
       // Register first page view
-      matomo.trackPageView()
+      if (options.trackInitialView) {
+        matomo.trackPageView()
+      }
 
       // Track page navigations if router is specified
       if (options.router) {
@@ -23,7 +33,14 @@ export default function install (Vue, options = {}) {
           // Unfortunately the window location is not yet updated here
           // We need to make our own ulr using the data provided by the router
           const loc = window.location
-          const url = loc.protocol + '://' + loc.host + to.path
+
+          // Protocol may or may not contain a colon
+          let protocol = loc.protocol
+          if (protocol.slice(-1) !== ':') {
+            protocol += ':'
+          }
+
+          const url = protocol + '//' + loc.host + to.path
 
           matomo.setCustomUrl(url)
           matomo.trackPageView(to.name)

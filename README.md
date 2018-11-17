@@ -21,6 +21,7 @@ import Vue from 'vue'
 import VueMatomo from 'vue-matomo'
 
 Vue.use(VueMatomo, {
+  // Configure your matomo server and site
   host: 'https://matomo.example.com',
   siteId: 5,
 
@@ -28,8 +29,17 @@ Vue.use(VueMatomo, {
   router: router,
 
   // Require consent before sending tracking information to matomo
-  requireConsent: true
-})
+  // Default: false
+  requireConsent: false,
+
+  // Whether to track the initial page view
+  // Default: true
+  trackInitialView: true,
+
+  // Changes the default .js and .php endpoint's filename
+  // Default: 'piwik'
+  trackerFileName: 'piwik'
+});
 
 // Now you can access piwik api in components through
 this.$matomo
