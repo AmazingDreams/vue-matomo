@@ -1,6 +1,10 @@
 <template>
   <div class="hello">
     <h1>Welcome to the vue-matomo demo</h1>
+
+    <p>
+    <a href="https://www.google.com">External link to google</a>
+    </p>
   </div>
 </template>
 
