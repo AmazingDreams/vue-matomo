@@ -1,4 +1,9 @@
 import bootstrap from './bootstrap'
+import ClickListener from './listeners/click'
+
+const bindListeners = function (matomo) {
+  new ClickListener(matomo).bind(document)
+}
 
 const defaultOptions = {
   requireConsent: false,
@@ -26,6 +31,9 @@ export default function install (Vue, setupOptions = {}) {
       if (options.trackInitialView) {
         matomo.trackPageView()
       }
+
+      // Bind event listeners
+      bindListeners(matomo)
 
       // Track page navigations if router is specified
       if (options.router) {
