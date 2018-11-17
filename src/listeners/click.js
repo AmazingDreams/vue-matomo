@@ -14,7 +14,7 @@ export default class ClickListener {
   handle (e) {
     if (e.target.nodeName.toLowerCase() === 'a' &&
         this.isExternalUrl(e.target.href)) {
-      this.matomo.trackLink(e.target.href)
+      this.matomo.trackLink(e.target.href, 'link')
     }
   }
 
