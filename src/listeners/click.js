@@ -1,5 +1,5 @@
 export default class ClickListener {
-  constructor(matomo) {
+  constructor (matomo) {
     this.matomo = matomo
   }
 
@@ -8,7 +8,10 @@ export default class ClickListener {
   }
 
   extractDomain (url) {
-    return url.replace('http://','').replace('https://','').split('/')[0]
+    return url
+      .replace('http://', '')
+      .replace('https://', '')
+      .split('/')[0]
   }
 
   handle (e) {
@@ -19,7 +22,6 @@ export default class ClickListener {
   }
 
   isExternalUrl (url) {
-    console.log('url ' + url)
-    return this.extractDomain(location.href) !== this.extractDomain(url);
+    return this.extractDomain(location.href) !== this.extractDomain(url)
   }
 }
