@@ -3,10 +3,11 @@
   "version": "0.4.0",
   "description": "Link your Piwik/Matomo installation",
   "author": "Dennis Ruhe <dennis@amazingsystems.nl>",
-  "main": "dist/vue-matomo.common.js",
-  "module": "dist/vue-matomo.esm.js",
-  "browser": "dist/vue-matomo.js",
-  "unpkg": "dist/vue-matomo.js",
+  "license": "MIT",
+  "main": "dist/vue-matomo.js",
+  "publishConfig": {
+     "registry": "https://registry.npmjs.org"
+  },
   "scripts": {
     "lint": "eslint --ext .js,.vue src",
     "build": "node config/scripts/build.js"
