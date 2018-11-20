@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 /*!!
  * Piwik - free/libre analytics platform
  *
@@ -75,3 +77,5 @@ if(c5==="string"){bw(cA[c6],bA)}else{if(c5==="object"){c1(cA[c6],bA)}}}cA=[]};th
 if("undefined"===c){return false}return !!_paq.length}if(window&&"object"===typeof window.piwikPluginAsyncInit&&window.piwikPluginAsyncInit.length){var a=0;for(a;a<window.piwikPluginAsyncInit.length;a++){if(typeof window.piwikPluginAsyncInit[a]==="function"){window.piwikPluginAsyncInit[a]()}}}if(window&&window.piwikAsyncInit){window.piwikAsyncInit()}if(!window.Piwik.getAsyncTrackers().length){if(b()){window.Piwik.addTracker()}else{_paq={push:function(c){var d=typeof console;if(d!=="undefined"&&console&&console.error){console.error("_paq.push() was used but Piwik tracker was not initialized before the piwik.js file was loaded. Make sure to configure the tracker via _paq.push before loading piwik.js. Alternatively, you can create a tracker via Piwik.addTracker() manually and then use _paq.push but it may not fully work as tracker methods may not be executed in the correct order.",c)}}}}}window.Piwik.trigger("PiwikInitialized",[]);window.Piwik.initialized=true}());(function(){var a=(typeof AnalyticsTracker);
 if(a==="undefined"){AnalyticsTracker=window.Piwik}}());if(typeof piwik_log!=="function"){piwik_log=function(b,f,d,g){function a(h){try{if(window["piwik_"+h]){return window["piwik_"+h]}}catch(i){}return}var c,e=window.Piwik.getTracker(d,f);e.setDocumentTitle(b);e.setCustomData(g);c=a("tracker_pause");if(c){e.setLinkTrackingTimer(c)}c=a("download_extensions");if(c){e.setDownloadExtensions(c)}c=a("hosts_alias");if(c){e.setDomains(c)}c=a("ignore_classes");if(c){e.setIgnoreClasses(c)}e.trackPageView();if(a("install_tracker")){piwik_track=function(i,k,j,h){e.setSiteId(k);e.setTrackerUrl(j);e.trackLink(i,h)};e.enableLinkTracking()}}}
 /*!! @license-end */;
+
+/* eslint-enable */

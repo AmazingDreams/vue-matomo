@@ -1,2 +1,4 @@
-dist/*.js
-src/lib/*
+/build/
+/config/
+/dist/
+/*.js
