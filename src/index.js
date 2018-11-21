@@ -36,6 +36,22 @@ export default function install (Vue, setupOptions = {}) {
   // Track page navigations if router is specified
   if (options.router) {
     options.router.afterEach((to, from) => {
+      // Unfortunately the window location is not yet updated here
+      // We need to make our own ulr using the data provided by the router
+      const loc = window.location
+
+      // Protocol may or may not contain a colon
+      let protocol = loc.protocol
+      if (protocol.slice(-1) !== ':') {
+          protocol += ':'
+      }
+
+      console.log(options.router)
+
+      const maybeHash = options.router.mode === 'hash' ? '/#' : ''
+      const url = protocol + '//' + loc.host + maybeHash + to.path
+
+      Matomo.setCustomUrl(url)
       Matomo.trackPageView()
     })
   }
