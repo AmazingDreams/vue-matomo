@@ -3,11 +3,8 @@ import ClickListener from './listeners/click'
 import bootstrap from './bootstrap'
 import Matomo from './matomo'
 
-const bindListeners = function (matomo) {
-  new ClickListener(matomo).bind(document)
-}
-
 const defaultOptions = {
+  enableLinkTracking: true,
   requireConsent: false,
   trackInitialView: true,
   trackerFileName: 'piwik'
@@ -23,15 +20,19 @@ export default function install (Vue, setupOptions = {}) {
   Vue.prototype.$matomo = Matomo
 
   Matomo.setTrackerUrl(`${host}/${trackerFileName}.php`)
-  Matomo.setSiteId('' + siteId)
+  Matomo.setSiteId(siteId)
 
   if (options.requireConsent) {
     Matomo.requireConsent()
   }
 
-  // Register first page view
   if (options.trackInitialView) {
+    // Register first page view
     Matomo.trackPageView()
+  }
+
+  if (options.enableLinkTracking) {
+    Matomo.enableLinkTracking()
   }
 
   // Track page navigations if router is specified
