@@ -1,6 +1,7 @@
 import ClickListener from './listeners/click'
 
-import './lib/piwik'
+import bootstrap from './bootstrap'
+import Matomo from './matomo'
 
 const bindListeners = function (matomo) {
   new ClickListener(matomo).bind(document)
@@ -16,23 +17,22 @@ export default function install (Vue, setupOptions = {}) {
   const options = Object.assign({}, defaultOptions, setupOptions)
 
   const { host, siteId, trackerFileName } = options
-  const matomo = window.Piwik.getTracker(`${host}/${trackerFileName}.php`, siteId)
 
   // Assign matomo to Vue
-  Vue.prototype.$piwik = matomo
-  Vue.prototype.$matomo = matomo
+  Vue.prototype.$piwik = Matomo
+  Vue.prototype.$matomo = Matomo
+
+  Matomo.setTrackerUrl(`${host}/${trackerFileName}.php`)
+  Matomo.setSiteId('' + siteId)
 
   if (options.requireConsent) {
-    matomo.requireConsent()
+    Matomo.requireConsent()
   }
 
   // Register first page view
   if (options.trackInitialView) {
-    matomo.trackPageView()
+    Matomo.trackPageView()
   }
-
-  // Bind event listeners
-  bindListeners(matomo)
 
   // Track page navigations if router is specified
   if (options.router) {
@@ -49,8 +49,11 @@ export default function install (Vue, setupOptions = {}) {
 
       const url = protocol + '//' + loc.host + to.path
 
-      matomo.setCustomUrl(url)
-      matomo.trackPageView(to.name)
+      Matomo.setCustomUrl(url)
+      Matomo.trackPageView(to.name)
     })
   }
+
+  // Load external matomo js
+  bootstrap(options)
 }
