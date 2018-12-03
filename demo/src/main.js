@@ -6,6 +6,8 @@ import router from './router'
 
 import VueMatomo from 'vue-matomo'
 
+console.log(VueMatomo)
+
 Vue.use(VueMatomo, {
   host: 'https://demo.matomo.org',
   siteId: 62,

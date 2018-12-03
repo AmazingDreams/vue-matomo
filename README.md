@@ -28,6 +28,11 @@ Vue.use(VueMatomo, {
   // Enables automatically registering pageviews on the router
   router: router,
 
+  // Enables link tracking on regular links. Note that this won't
+  // work for routing links (ie. internal Vue router links)
+  // Default: true
+  enableLinkTracking: true,
+
   // Require consent before sending tracking information to matomo
   // Default: false
   requireConsent: false,

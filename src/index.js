@@ -1,11 +1,8 @@
 import bootstrap from './bootstrap'
-import ClickListener from './listeners/click'
-
-const bindListeners = function (matomo) {
-  new ClickListener(matomo).bind(document)
-}
+import Matomo from './matomo'
 
 const defaultOptions = {
+  enableLinkTracking: true,
   requireConsent: false,
   trackInitialView: true,
   trackerFileName: 'piwik'
@@ -14,45 +11,51 @@ const defaultOptions = {
 export default function install (Vue, setupOptions = {}) {
   const options = Object.assign({}, defaultOptions, setupOptions)
 
-  bootstrap(options)
-    .then(() => {
-      const { host, siteId, trackerFileName } = options
-      const matomo = window.Piwik.getTracker(`${host}/${trackerFileName}.php`, siteId)
+  const { host, siteId, trackerFileName } = options
 
-      // Assign matomo to Vue
-      Vue.prototype.$piwik = matomo
-      Vue.prototype.$matomo = matomo
+  // Assign matomo to Vue
+  Vue.prototype.$piwik = Matomo
+  Vue.prototype.$matomo = Matomo
 
-      if (options.requireConsent) {
-        matomo.requireConsent()
+  Matomo.setTrackerUrl(`${host}/${trackerFileName}.php`)
+  Matomo.setSiteId(siteId)
+
+  if (options.requireConsent) {
+    Matomo.requireConsent()
+  }
+
+  if (options.trackInitialView) {
+    // Register first page view
+    Matomo.trackPageView()
+  }
+
+  if (options.enableLinkTracking) {
+    Matomo.enableLinkTracking()
+  }
+
+  // Track page navigations if router is specified
+  if (options.router) {
+    options.router.afterEach((to, from) => {
+      // Unfortunately the window location is not yet updated here
+      // We need to make our own ulr using the data provided by the router
+      const loc = window.location
+
+      // Protocol may or may not contain a colon
+      let protocol = loc.protocol
+      if (protocol.slice(-1) !== ':') {
+          protocol += ':'
       }
 
-      // Register first page view
-      if (options.trackInitialView) {
-        matomo.trackPageView()
-      }
+      console.log(options.router)
 
-      // Bind event listeners
-      bindListeners(matomo)
+      const maybeHash = options.router.mode === 'hash' ? '/#' : ''
+      const url = protocol + '//' + loc.host + maybeHash + to.path
 
-      // Track page navigations if router is specified
-      if (options.router) {
-        options.router.afterEach((to, from) => {
-          // Unfortunately the window location is not yet updated here
-          // We need to make our own ulr using the data provided by the router
-          const loc = window.location
-
-          // Protocol may or may not contain a colon
-          let protocol = loc.protocol
-          if (protocol.slice(-1) !== ':') {
-            protocol += ':'
-          }
-
-          const url = protocol + '//' + loc.host + to.path
-
-          matomo.setCustomUrl(url)
-          matomo.trackPageView(to.name)
-        })
-      }
+      Matomo.setCustomUrl(url)
+      Matomo.trackPageView()
     })
+  }
+
+  // Load external matomo js
+  bootstrap(options)
 }
