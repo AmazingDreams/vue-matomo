@@ -3,7 +3,8 @@
     <h1>Welcome to Page 1</h1>
 
     <p>
-      <router-link :to="{name: 'HelloWorld'}">Page 1</router-link>
+      <router-link :to="{name: 'HelloWorld'}">HelloWorld</router-link>
+      <router-link :to="{name: 'Page2'}">Page 2 (Untracked)</router-link>
     </p>
   </div>
 </template>

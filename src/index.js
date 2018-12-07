@@ -37,6 +37,7 @@ export default function install (Vue, setupOptions = {}) {
   // Track page navigations if router is specified
   if (options.router) {
     options.router.afterEach((to, from) => {
+
       // Unfortunately the window location is not yet updated here
       // We need to make our own url using the data provided by the router
       const loc = window.location
@@ -49,6 +50,13 @@ export default function install (Vue, setupOptions = {}) {
 
       const maybeHash = options.router.mode === 'hash' ? '/#' : ''
       const url = protocol + '//' + loc.host + maybeHash + to.path
+
+      if (to.meta.analyticsIgnore) {
+        options.debug && console.debug('[vue-matomo] Ignoring ' + url)
+        return
+      }
+
+      options.debug && console.debug('[vue-matomo] Tracking ' + url)
 
       Matomo.setCustomUrl(url)
       Matomo.trackPageView()

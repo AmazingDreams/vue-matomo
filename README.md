@@ -62,6 +62,22 @@ window.Piwik.getTracker
 
 For available operations see the [matomo api docs](https://developer.matomo.org/api-reference/tracking-javascript)
 
+### Ignoring routes
+
+It is possible to ignore routes using the route meta:
+
+```js
+{
+  path: '/page-2',
+  name: 'Page2',
+  component: Page2,
+  meta: {
+  analyticsIgnore: true
+  }
+}
+```
+
+
 ### Browser
 
 ```html

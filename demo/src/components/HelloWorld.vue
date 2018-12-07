@@ -7,6 +7,7 @@
     </p>
     <p>
       <router-link :to="{name: 'Page1'}">Page 1</router-link>
+      <router-link :to="{name: 'Page2'}">Page 2 (Untracked)</router-link>
     </p>
     <p>
       <button @click="trackMatomoEvent">
