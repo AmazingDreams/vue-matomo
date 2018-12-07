@@ -43,7 +43,11 @@ Vue.use(VueMatomo, {
 
   // Changes the default .js and .php endpoint's filename
   // Default: 'piwik'
-  trackerFileName: 'piwik'
+  trackerFileName: 'piwik',
+
+  // Whether or not to log debug information
+  // Default: false
+  debug: false
 });
 
 // Now you can access piwik api in components through
