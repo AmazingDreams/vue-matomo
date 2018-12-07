@@ -47,8 +47,6 @@ export default function install (Vue, setupOptions = {}) {
           protocol += ':'
       }
 
-      options.debug && console.log(options.router)
-
       const maybeHash = options.router.mode === 'hash' ? '/#' : ''
       const url = protocol + '//' + loc.host + maybeHash + to.path
 

@@ -4,7 +4,6 @@ export default new Proxy({}, {
 
     return (...args) => {
       const arr = [name].concat(args)
-      console.debug(arr)
       window._paq.push(arr)
     }
   }
