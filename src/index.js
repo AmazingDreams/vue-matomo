@@ -1,5 +1,5 @@
 import bootstrap from './bootstrap'
-import Matomo from './matomo'
+import MatomoJS from './matomo'
 
 const defaultOptions = {
   debug: false,
@@ -13,13 +13,11 @@ export default function install (Vue, setupOptions = {}) {
   const options = Object.assign({}, defaultOptions, setupOptions)
 
   const { host, siteId, trackerFileName } = options
+  const Matomo = MatomoJS.getTracker(`${host}/${trackerFileName}.php`, siteId)
 
   // Assign matomo to Vue
   Vue.prototype.$piwik = Matomo
   Vue.prototype.$matomo = Matomo
-
-  Matomo.setTrackerUrl(`${host}/${trackerFileName}.php`)
-  Matomo.setSiteId(siteId)
 
   if (options.requireConsent) {
     Matomo.requireConsent()
