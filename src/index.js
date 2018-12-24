@@ -1,4 +1,3 @@
-import bootstrap from './bootstrap'
 import MatomoJS from './matomo'
 
 const defaultOptions = {
@@ -60,7 +59,4 @@ export default function install (Vue, setupOptions = {}) {
       Matomo.trackPageView()
     })
   }
-
-  // Load external matomo js
-  bootstrap(options)
 }
