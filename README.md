@@ -21,8 +21,14 @@ import Vue from 'vue'
 import VueMatomo from 'vue-matomo'
 
 Vue.use(VueMatomo, {
-  // Configure your matomo server and site
+  // Configure your matomo server and site by providing host and trackerFileName
   host: 'https://matomo.example.com',
+  // Changes the default .js and .php endpoint's filename
+  // Default: 'piwik'
+  trackerFileName: 'piwik',
+  // or provide a custom tracker url instead
+  // trackerUrl: 'https://matomo.example.com/piwik.php',
+
   siteId: 5,
 
   // Enables automatically registering pageviews on the router
@@ -40,10 +46,6 @@ Vue.use(VueMatomo, {
   // Whether to track the initial page view
   // Default: true
   trackInitialView: true,
-
-  // Changes the default .js and .php endpoint's filename
-  // Default: 'piwik'
-  trackerFileName: 'piwik',
 
   // Whether or not to log debug information
   // Default: false
