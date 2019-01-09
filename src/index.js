@@ -12,10 +12,9 @@ export default function install (Vue, setupOptions = {}) {
   const options = Object.assign({}, defaultOptions, setupOptions)
 
   const { host, siteId, trackerFileName, trackerUrl } = options
+  const trackerEndpoint = trackerUrl || `${host}/${trackerFileName}.php`;
 
-  const trackerEnpoint = trackerUrl || `${host}/${trackerFileName}.php`;
-
-  const Matomo = MatomoJS.getTracker(trackerEnpoint, siteId)
+  const Matomo = MatomoJS.getTracker(trackerEndpoint, siteId)
 
   // Assign matomo to Vue
   Vue.prototype.$piwik = Matomo
