@@ -32,6 +32,10 @@ Vue.use(VueMatomo, {
   // Default: 'piwik'
   trackerFileName: 'piwik',
 
+  // Overrides the tracker endpoint entirely
+  // Default: undefined
+  trackerUrl: 'https://example.com/whataweirdendpoint',
+
   // Whether or not to log debug information
   // Default: false
   debug: true
