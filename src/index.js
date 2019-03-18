@@ -28,6 +28,7 @@ export default function install (Vue, setupOptions = {}) {
 
       // Track page navigations if router is specified
       if (options.router) {
+        const baseRoute = options.router.base
         options.router.afterEach((to, from) => {
           // Unfortunately the window location is not yet updated here
           // We need to make our own ulr using the data provided by the router
@@ -39,8 +40,12 @@ export default function install (Vue, setupOptions = {}) {
             protocol += ':'
           }
 
-          const url = protocol + '//' + loc.host + to.path
-
+          let url = protocol + '//' + loc.host + to.path
+          if (baseRoute) {
+            url = protocol + '//' + loc.host + baseRoute + to.path
+          } else {
+            url = protocol + '//' + loc.host + to.path
+          }
           matomo.setCustomUrl(url)
           matomo.trackPageView(to.name)
         })
