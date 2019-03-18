@@ -1,13 +1,13 @@
 {
-  "name": "vue-matomo",
-  "version": "0.1.9",
+  "name": "dd-vue-matomo",
+  "version": "0.1.1",
   "description": "Link your Piwik/Matomo installation",
-  "author": "Dennis Ruhe <dennis@amazingsystems.nl>",
+  "author": "Dennis Ruhe <dennis@amazingsystems.nl>,lxj",
   "main": "dist/vue-matomo.common.js",
-  "module": "dist/vue-matomo.esm.js",
-  "browser": "dist/vue-matomo.js",
-  "unpkg": "dist/vue-matomo.js",
-  "style": "dist/vue-matomo.css",
+  "module": "dist/dd-vue-matomo.esm.js",
+  "browser": "dist/dd-vue-matomo.js",
+  "unpkg": "dist/dd-vue-matomo.js",
+  "style": "dist/dd-vue-matomo.css",
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
   },
