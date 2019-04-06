@@ -93,7 +93,36 @@ It is possible to ignore routes using the route meta:
 <script src="https://unpkg.com/vue-matomo"></script>
 ```
 
-### Build
+### Nuxt
+
+Nuxt can work by creating a plugin that will load VueMatomo with SSR disabled. Note how the router is passed:
+
+```js
+// plugins/vue-matomo.js
+
+import Vue from 'vue'
+import VueMatomo from 'vue-matomo'
+
+export default ({ app }) => {
+  Vue.use(VueMatomo, {
+    router: app.router
+    
+    /** Other configuration options **/
+  })
+}
+```
+
+```js
+// nuxt.config.js
+
+export default {
+  plugins: [
+    { src: '~/plugins/vue-matomo.js', ssr: false }
+  ]
+}
+```
+
+## Build
 
 Bundle the js and css of to the `dist` folder:
 
