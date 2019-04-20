@@ -1,6 +1,6 @@
 {
   "name": "vue-matomo",
-  "version": "3.7.0-2",
+  "version": "3.9.1-1",
   "description": "Link your Piwik/Matomo installation",
   "author": "Dennis Ruhe <dennis@amazingsystems.nl>",
   "license": "MIT",
