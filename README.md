@@ -12,6 +12,17 @@ Link your Piwik/Matomo installation
 npm install --save vue-matomo
 ```
 
+### Browser
+
+```html
+<!-- Include after Vue -->
+<!-- Local files -->
+<script src="vue-matomo/dist/vue-matomo.js"></script>
+
+<!-- From CDN -->
+<script src="https://unpkg.com/vue-matomo"></script>
+```
+
 ## Usage
 
 ### Bundler (Webpack, Rollup)
@@ -66,6 +77,35 @@ window.Piwik.getTracker
 
 For available operations see the [matomo api docs](https://developer.matomo.org/api-reference/tracking-javascript)
 
+### Nuxt
+
+Nuxt can work by creating a plugin that will load VueMatomo with SSR disabled. Note how the router is passed:
+
+```js
+// plugins/vue-matomo.js
+
+import Vue from 'vue'
+import VueMatomo from 'vue-matomo'
+
+export default ({ app }) => {
+  Vue.use(VueMatomo, {
+    router: app.router
+
+    /** Other configuration options **/
+  })
+}
+```
+
+```js
+// nuxt.config.js
+
+export default {
+  plugins: [
+    { src: '~/plugins/vue-matomo.js', ssr: false }
+  ]
+}
+```
+
 ### Ignoring routes
 
 It is possible to ignore routes using the route meta:
@@ -81,46 +121,29 @@ It is possible to ignore routes using the route meta:
 }
 ```
 
+### Managing consent
 
-### Browser
-
-```html
-<!-- Include after Vue -->
-<!-- Local files -->
-<script src="vue-matomo/dist/vue-matomo.js"></script>
-
-<!-- From CDN -->
-<script src="https://unpkg.com/vue-matomo"></script>
-```
-
-### Nuxt
-
-Nuxt can work by creating a plugin that will load VueMatomo with SSR disabled. Note how the router is passed:
+First of all load the plugin with the following option enabled:
 
 ```js
-// plugins/vue-matomo.js
+Vue.use(VueMatomo, {
+  // ...
+  requireConsent: true
+})
+```
 
-import Vue from 'vue'
-import VueMatomo from 'vue-matomo'
+Matomo has a built in way to give and remember consent. The simplest way is to simply use this method provided by matomo:
 
-export default ({ app }) => {
-  Vue.use(VueMatomo, {
-    router: app.router
-    
-    /** Other configuration options **/
-  })
+```js
+<button @click="handleConsent()">Accept Cookies</button>
+
+handleConsent() {
+  this.$matomo.rememberConsentGiven()
 }
 ```
 
-```js
-// nuxt.config.js
-
-export default {
-  plugins: [
-    { src: '~/plugins/vue-matomo.js', ssr: false }
-  ]
-}
-```
+Another option is to use your own implementation for remembering consent. In that case you can simply call
+`this.$maotomo.setConsentGiven()` on each page load when you establish that the user has given consent.
 
 ## Build
 
