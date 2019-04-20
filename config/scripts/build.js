@@ -3,37 +3,21 @@ const merge = require('webpack-merge')
 const webpack = require('webpack')
 const pkg = require('../../package.json')
 const ora = require('ora')
-const CompressionPlugin = require('compression-webpack-plugin')
 
 const spinner = ora()
 
 const webpackConfig = merge.smart({}, base, {
+  mode: 'production',
+  target: 'web',
+  externals: ['vue'],
+  optimization: {
+    minimize: true
+  },
   plugins: [
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: '"production"'
       }
-    }),
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        screw_ie8: true,
-        warnings: false,
-      },
-      mangle: {
-        screw_ie8: true,
-      },
-      output: {
-        comments: false,
-        screw_ie8: true,
-      },
-      sourceMap: true
-    }),
-    new CompressionPlugin({
-      asset: '[path].gz[query]',
-      algorithm: 'gzip',
-      test: /\.js$/,
-      threshold: 0,
-      minRatio: 0.8
     }),
     new webpack.optimize.ModuleConcatenationPlugin()
   ]
