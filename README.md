@@ -82,6 +82,16 @@ For available operations see the [matomo api docs](https://developer.matomo.org/
 Nuxt can work by creating a plugin that will load VueMatomo with SSR disabled. Note how the router is passed:
 
 ```js
+// nuxt.config.js
+
+export default {
+  plugins: [
+    { src: '~/plugins/vue-matomo.js', ssr: false }
+  ]
+}
+```
+
+```js
 // plugins/vue-matomo.js
 
 import Vue from 'vue'
@@ -93,16 +103,6 @@ export default ({ app }) => {
 
     /** Other configuration options **/
   })
-}
-```
-
-```js
-// nuxt.config.js
-
-export default {
-  plugins: [
-    { src: '~/plugins/vue-matomo.js', ssr: false }
-  ]
 }
 ```
 
@@ -143,7 +143,7 @@ handleConsent() {
 ```
 
 Another option is to use your own implementation for remembering consent. In that case you can simply call
-`this.$maotomo.setConsentGiven()` on each page load when you establish that the user has given consent.
+`this.$matomo.setConsentGiven()` on each page load when you establish that the user has given consent.
 
 ## Build
 
