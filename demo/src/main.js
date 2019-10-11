@@ -6,8 +6,6 @@ import router from './router'
 
 import VueMatomo from 'vue-matomo'
 
-console.log(VueMatomo)
-
 Vue.use(VueMatomo, {
   host: 'https://demo.matomo.org',
   siteId: 62,
@@ -34,7 +32,7 @@ Vue.use(VueMatomo, {
 
   // Overrides the tracker endpoint entirely
   // Default: undefined
-  trackerUrl: 'https://example.com/whataweirdendpoint',
+  trackerUrl: undefined,
 
   // Whether or not to log debug information
   // Default: false

@@ -1,5 +1,3 @@
-import MatomoJS from './matomo'
-
 const defaultOptions = {
   debug: false,
   enableLinkTracking: true,
@@ -8,13 +6,35 @@ const defaultOptions = {
   trackerFileName: 'piwik'
 }
 
-export default function install (Vue, setupOptions = {}) {
-  const options = Object.assign({}, defaultOptions, setupOptions)
+function loadScript (trackerScript) {
+  const scriptPromise = new Promise((resolve, reject) => {
+    const script = document.createElement('script')
+    script.async = true
+    script.defer = true
+    script.src = trackerScript
 
+    const head = document.head || document.getElementsByTagName('head')[0]
+    head.appendChild(script)
+
+    script.onload = resolve
+    script.onerror = reject
+  })
+
+  scriptPromise.catch((error) => {
+    const msg = '[vue-matomo] An error occurred trying to load ' + error.target.src + '. ' +
+      'If the file exists you may have an ad- or trackingblocker enabled.'
+
+    console.error(msg)
+  })
+
+  return scriptPromise
+}
+
+function initMatomo(Vue, options) {
   const { host, siteId, trackerFileName, trackerUrl } = options
   const trackerEndpoint = trackerUrl || `${host}/${trackerFileName}.php`;
 
-  const Matomo = MatomoJS.getTracker(trackerEndpoint, siteId)
+  const Matomo = window.Piwik.getTracker(trackerEndpoint, siteId)
 
   // Assign matomo to Vue
   Vue.prototype.$piwik = Matomo
@@ -44,7 +64,7 @@ export default function install (Vue, setupOptions = {}) {
       // Protocol may or may not contain a colon
       let protocol = loc.protocol
       if (protocol.slice(-1) !== ':') {
-          protocol += ':'
+        protocol += ':'
       }
 
       const maybeHash = options.router.mode === 'hash' ? '/#' : ''
@@ -61,4 +81,14 @@ export default function install (Vue, setupOptions = {}) {
       Matomo.trackPageView()
     })
   }
+}
+
+export default function install (Vue, setupOptions = {}) {
+  const options = Object.assign({}, defaultOptions, setupOptions)
+
+  const { host, trackerFileName } = options
+  const trackerScript = `${host}/${trackerFileName}.js`
+
+  loadScript(trackerScript)
+    .then(() => initMatomo(Vue, options))
 }
