@@ -1,9 +1,13 @@
+import { buildBaseUrl } from './utils'
+
 const defaultOptions = {
   debug: false,
   enableLinkTracking: true,
   requireConsent: false,
   trackInitialView: true,
-  trackerFileName: 'piwik'
+  trackerFileName: 'piwik',
+  trackerUrl: undefined,
+  userId: undefined
 }
 
 function loadScript (trackerScript) {
@@ -30,6 +34,7 @@ function loadScript (trackerScript) {
   return scriptPromise
 }
 
+
 function initMatomo(Vue, options) {
   const { host, siteId, trackerFileName, trackerUrl } = options
   const trackerEndpoint = trackerUrl || `${host}/${trackerFileName}.php`;
@@ -44,6 +49,10 @@ function initMatomo(Vue, options) {
     Matomo.requireConsent()
   }
 
+  if (options.userId) {
+    Matomo.setUserId(options.userId)
+  }
+
   if (options.trackInitialView) {
     // Register first page view
     Matomo.trackPageView()
@@ -55,20 +64,12 @@ function initMatomo(Vue, options) {
 
   // Track page navigations if router is specified
   if (options.router) {
-    options.router.afterEach((to, from) => {
+    const baseUrl = buildBaseUrl(options)
 
+    options.router.afterEach((to, from) => {
       // Unfortunately the window location is not yet updated here
       // We need to make our own url using the data provided by the router
-      const loc = window.location
-
-      // Protocol may or may not contain a colon
-      let protocol = loc.protocol
-      if (protocol.slice(-1) !== ':') {
-        protocol += ':'
-      }
-
-      const maybeHash = options.router.mode === 'hash' ? '/#' : ''
-      const url = protocol + '//' + loc.host + maybeHash + to.path
+      const url = baseUrl + to.fullPath
 
       if (to.meta.analyticsIgnore) {
         options.debug && console.debug('[vue-matomo] Ignoring ' + url)

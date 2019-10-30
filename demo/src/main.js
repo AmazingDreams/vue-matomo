@@ -4,7 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 
-import VueMatomo from 'vue-matomo'
+import VueMatomo from '../../src/index'
 
 Vue.use(VueMatomo, {
   host: 'https://demo.matomo.org',
@@ -36,7 +36,11 @@ Vue.use(VueMatomo, {
 
   // Whether or not to log debug information
   // Default: false
-  debug: true
+  debug: true,
+
+  // User ID
+  // Default: undefined
+  userId: 'some-user-id'
 })
 
 Vue.config.productionTip = false
