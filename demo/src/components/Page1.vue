@@ -11,6 +11,9 @@
 
 <script>
 export default {
-  name: 'HelloWorld'
+  name: 'HelloWorld',
+  mounted () {
+    window._paq.push(['trackEvent', 'something', 'Click', 'span'])
+  }
 }
 </script>

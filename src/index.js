@@ -5,7 +5,7 @@ const defaultOptions = {
   enableLinkTracking: true,
   requireConsent: false,
   trackInitialView: true,
-  trackerFileName: 'piwik',
+  trackerFileName: 'matomo',
   trackerUrl: undefined,
   userId: undefined
 }
@@ -36,30 +36,15 @@ function loadScript (trackerScript) {
 
 
 function initMatomo(Vue, options) {
-  const { host, siteId, trackerFileName, trackerUrl } = options
-  const trackerEndpoint = trackerUrl || `${host}/${trackerFileName}.php`;
-
-  const Matomo = window.Piwik.getTracker(trackerEndpoint, siteId)
+  const Matomo = window.Piwik.getAsyncTracker()
 
   // Assign matomo to Vue
   Vue.prototype.$piwik = Matomo
   Vue.prototype.$matomo = Matomo
 
-  if (options.requireConsent) {
-    Matomo.requireConsent()
-  }
-
-  if (options.userId) {
-    Matomo.setUserId(options.userId)
-  }
-
   if (options.trackInitialView) {
     // Register first page view
     Matomo.trackPageView()
-  }
-
-  if (options.enableLinkTracking) {
-    Matomo.enableLinkTracking()
   }
 
   // Track page navigations if router is specified
@@ -87,8 +72,26 @@ function initMatomo(Vue, options) {
 export default function install (Vue, setupOptions = {}) {
   const options = Object.assign({}, defaultOptions, setupOptions)
 
-  const { host, trackerFileName } = options
+  const { host, siteId, trackerFileName, trackerUrl } = options
   const trackerScript = `${host}/${trackerFileName}.js`
+  const trackerEndpoint = trackerUrl || `${host}/${trackerFileName}.php`;
+
+  window._paq = window._paq || []
+
+  if (options.requireConsent) {
+    window._paq.push(['requireConsent'])
+  }
+
+  if (options.userId) {
+    window._paq.push(['setUserId', options.userId])
+  }
+
+  if (options.enableLinkTracking) {
+    window._paq.push(['enableLinkTracking'])
+  }
+
+  window._paq.push(['setTrackerUrl', trackerEndpoint])
+  window._paq.push(['setSiteId', siteId])
 
   loadScript(trackerScript)
     .then(() => initMatomo(Vue, options))
