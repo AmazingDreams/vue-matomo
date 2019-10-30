@@ -8,7 +8,7 @@ export function buildBaseUrl(options) {
       .replace(/^[\/]/, '')
       .replace(/[\/]+$/, '')
 
-    routerBase = `/${routerBase}/`
+    routerBase = `/${routerBase}`
   }
 
   // Protocol may or may not contain a colon
@@ -17,7 +17,7 @@ export function buildBaseUrl(options) {
     protocol += ':'
   }
 
-  const maybeHash = options.router.mode === 'hash' ? '#' : ''
+  const maybeHash = options.router.mode === 'hash' ? '/#' : ''
 
   return protocol + '//' + loc.host + routerBase + maybeHash
 }
