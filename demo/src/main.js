@@ -4,7 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 
-import VueMatomo from 'vue-matomo'
+import VueMatomo from '../../src/index'
 
 Vue.use(VueMatomo, {
   host: 'https://demo.matomo.org',
