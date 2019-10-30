@@ -1,6 +1,6 @@
 {
   "name": "vue-matomo",
-  "version": "3.12.0-2",
+  "version": "3.12.0-3",
   "description": "Link your Piwik/Matomo installation",
   "author": "Dennis Ruhe <dennis@amazingsystems.nl>",
   "license": "MIT",
@@ -11,7 +11,8 @@
   },
   "scripts": {
     "lint": "eslint --ext .js,.vue src",
-    "build": "node config/scripts/build.js"
+    "build": "node config/scripts/build.js",
+    "prepublish": "npm run build"
   },
   "devDependencies": {
     "@babel/core": "^7.6.4",
