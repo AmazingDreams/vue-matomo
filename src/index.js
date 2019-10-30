@@ -55,8 +55,17 @@ function initMatomo(Vue, options) {
 
   // Track page navigations if router is specified
   if (options.router) {
-    options.router.afterEach((to, from) => {
+    let routerBase = '/'
+    if (options.router.options.base) {
+      // Trim '/' at start and end, replace with single '/' at start and end
+      routerBase = options.router.options.base
+        .replace(/^[\/]/, '')
+        .replace(/[\/]+$/, '')
 
+      routerBase = `/${routerBase}/`
+    }
+
+    options.router.afterEach((to, from) => {
       // Unfortunately the window location is not yet updated here
       // We need to make our own url using the data provided by the router
       const loc = window.location
@@ -67,8 +76,8 @@ function initMatomo(Vue, options) {
         protocol += ':'
       }
 
-      const maybeHash = options.router.mode === 'hash' ? '/#' : ''
-      const url = protocol + '//' + loc.host + maybeHash + to.path
+      const maybeHash = options.router.mode === 'hash' ? '#' : ''
+      const url = protocol + '//' + loc.host + routerBase + maybeHash + to.path
 
       if (to.meta.analyticsIgnore) {
         options.debug && console.debug('[vue-matomo] Ignoring ' + url)
