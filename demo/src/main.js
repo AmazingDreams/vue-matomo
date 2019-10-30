@@ -36,7 +36,11 @@ Vue.use(VueMatomo, {
 
   // Whether or not to log debug information
   // Default: false
-  debug: true
+  debug: true,
+
+  // User ID
+  // Default: undefined
+  userId: 'some-user-id'
 })
 
 Vue.config.productionTip = false

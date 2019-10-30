@@ -62,7 +62,11 @@ Vue.use(VueMatomo, {
 
   // Whether or not to log debug information
   // Default: false
-  debug: false
+  debug: false,
+  
+  // UserID passed to Matomo (see https://developer.matomo.org/guides/tracking-javascript-guide#user-id)
+  // Default: undefined
+  userId: undefined
 });
 
 // Now you can access piwik api in components through
@@ -123,7 +127,7 @@ It is possible to ignore routes using the route meta:
 
 ### Managing consent
 
-First of all load the plugin with the following option enabled:
+First of all load the plugin with the `requireConsent` option enabled:
 
 ```js
 Vue.use(VueMatomo, {
@@ -132,7 +136,7 @@ Vue.use(VueMatomo, {
 })
 ```
 
-Matomo has a built in way to give and remember consent. The simplest way is to simply use this method provided by matomo:
+Matomo has a built in way to give and remember consent. The simplest way is to simply use this method provided by Matomo:
 
 ```js
 <button @click="handleConsent()">Accept Cookies</button>

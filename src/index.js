@@ -5,7 +5,9 @@ const defaultOptions = {
   enableLinkTracking: true,
   requireConsent: false,
   trackInitialView: true,
-  trackerFileName: 'piwik'
+  trackerFileName: 'piwik',
+  trackerUrl: undefined,
+  userId: undefined
 }
 
 function loadScript (trackerScript) {
@@ -45,6 +47,10 @@ function initMatomo(Vue, options) {
 
   if (options.requireConsent) {
     Matomo.requireConsent()
+  }
+
+  if (options.userId) {
+    Matomo.setUserId(options.userId)
   }
 
   if (options.trackInitialView) {
