@@ -1,3 +1,5 @@
+import { buildBaseUrl } from './utils'
+
 const defaultOptions = {
   debug: false,
   enableLinkTracking: true,
@@ -30,6 +32,7 @@ function loadScript (trackerScript) {
   return scriptPromise
 }
 
+
 function initMatomo(Vue, options) {
   const { host, siteId, trackerFileName, trackerUrl } = options
   const trackerEndpoint = trackerUrl || `${host}/${trackerFileName}.php`;
@@ -55,29 +58,12 @@ function initMatomo(Vue, options) {
 
   // Track page navigations if router is specified
   if (options.router) {
-    let routerBase = '/'
-    if (options.router.options.base) {
-      // Trim '/' at start and end, replace with single '/' at start and end
-      routerBase = options.router.options.base
-        .replace(/^[\/]/, '')
-        .replace(/[\/]+$/, '')
-
-      routerBase = `/${routerBase}/`
-    }
+    const baseUrl = buildBaseUrl(options)
 
     options.router.afterEach((to, from) => {
       // Unfortunately the window location is not yet updated here
       // We need to make our own url using the data provided by the router
-      const loc = window.location
-
-      // Protocol may or may not contain a colon
-      let protocol = loc.protocol
-      if (protocol.slice(-1) !== ':') {
-        protocol += ':'
-      }
-
-      const maybeHash = options.router.mode === 'hash' ? '#' : ''
-      const url = protocol + '//' + loc.host + routerBase + maybeHash + to.path
+      const url = baseUrl + to.fullPath
 
       if (to.meta.analyticsIgnore) {
         options.debug && console.debug('[vue-matomo] Ignoring ' + url)
