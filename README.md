@@ -81,9 +81,21 @@ window.Piwik.getTracker
 
 For available operations see the [matomo api docs](https://developer.matomo.org/api-reference/tracking-javascript)
 
+#### Note on async loading
+
+This plugin loads the `matomo.js` asynchronously, which means it is possible that `$matomo` is not (yet) loaded. Furthermore anti-tracking plugins on browsers might block `matomo.js` entirely. You should always guard your calls to `$matomo`, or use `window._paq.push`:
+
+```js
+this.$matomo && this.$matomo.trackPageView()
+
+// Or...
+
+window._paq.push(['trackPageView'])
+```
+
 ### Nuxt
 
-Nuxt can work by creating a plugin that will load VueMatomo with SSR disabled. Note how the router is passed:
+Nuxt can work by creating a plugin that will load VueMatomo with SSR disabled. Note how the router is passed in the second snippet:
 
 ```js
 // nuxt.config.js
@@ -93,9 +105,7 @@ export default {
     { src: '~/plugins/vue-matomo.js', ssr: false }
   ]
 }
-```
 
-```js
 // plugins/vue-matomo.js
 
 import Vue from 'vue'
@@ -120,7 +130,7 @@ It is possible to ignore routes using the route meta:
   name: 'Page2',
   component: Page2,
   meta: {
-  analyticsIgnore: true
+    analyticsIgnore: true
   }
 }
 ```
