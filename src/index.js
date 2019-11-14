@@ -5,6 +5,7 @@ const defaultOptions = {
   enableLinkTracking: true,
   requireConsent: false,
   trackInitialView: true,
+  disableCookies: false,
   trackerFileName: 'matomo',
   trackerUrl: undefined,
   userId: undefined
@@ -88,6 +89,10 @@ export default function install (Vue, setupOptions = {}) {
 
   if (options.enableLinkTracking) {
     window._paq.push(['enableLinkTracking'])
+  }
+
+  if (options.disableCookies) {
+    window._paq.push(['disableCookies'])
   }
 
   window._paq.push(['setTrackerUrl', trackerEndpoint])
