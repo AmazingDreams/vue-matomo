@@ -60,10 +60,14 @@ Vue.use(VueMatomo, {
   // Default: true
   trackInitialView: true,
 
+  // Run Matomo without cookies
+  // Default: false
+  disableCookies: false,
+
   // Whether or not to log debug information
   // Default: false
   debug: false,
-  
+
   // UserID passed to Matomo (see https://developer.matomo.org/guides/tracking-javascript-guide#user-id)
   // Default: undefined
   userId: undefined

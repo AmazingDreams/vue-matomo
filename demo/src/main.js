@@ -26,6 +26,10 @@ Vue.use(VueMatomo, {
   // Default: true
   trackInitialView: true,
 
+  // Run Matomo without cookies
+  // Default: false
+  disableCookies: false,
+
   // Changes the default .js and .php endpoint's filename
   // Default: 'piwik'
   trackerFileName: 'piwik',
