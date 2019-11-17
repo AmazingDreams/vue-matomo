@@ -66,7 +66,7 @@ Vue.use(VueMatomo, {
 
   // Enable the heartbeat timer (https://developer.matomo.org/guides/tracking-javascript-guide#accurately-measure-the-time-spent-on-each-page)
   // Default: false
-  enableHeartBeatTimer: true,
+  enableHeartBeatTimer: false,
 
   // Set the heartbeat timer interval
   // Default: 15
