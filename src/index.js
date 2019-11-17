@@ -2,10 +2,12 @@ import { buildBaseUrl } from './utils'
 
 const defaultOptions = {
   debug: false,
+  disableCookies: false,
+  enableHeartBeatTimer: false,
   enableLinkTracking: true,
+  heartBeatTimerInterval: 15,
   requireConsent: false,
   trackInitialView: true,
-  disableCookies: false,
   trackerFileName: 'matomo',
   trackerUrl: undefined,
   userId: undefined
@@ -93,6 +95,10 @@ export default function install (Vue, setupOptions = {}) {
 
   if (options.disableCookies) {
     window._paq.push(['disableCookies'])
+  }
+
+  if (options.enableHeartBeatTimer) {
+    window._paq.push(['enableHeartBeatTimer', options.heartBeatTimerInterval])
   }
 
   window._paq.push(['setTrackerUrl', trackerEndpoint])

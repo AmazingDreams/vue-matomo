@@ -30,8 +30,16 @@ Vue.use(VueMatomo, {
   // Default: false
   disableCookies: false,
 
+  // Enable the heartbeat timer (https://developer.matomo.org/guides/tracking-javascript-guide#accurately-measure-the-time-spent-on-each-page)
+  // Default: false
+  enableHeartBeatTimer: true,
+
+  // Set the heartbeat timer interval
+  // Default: 15
+  heartBeatTimerInterval: 5,
+
   // Changes the default .js and .php endpoint's filename
-  // Default: 'piwik'
+  // Default: 'matomo'
   trackerFileName: 'piwik',
 
   // Overrides the tracker endpoint entirely
