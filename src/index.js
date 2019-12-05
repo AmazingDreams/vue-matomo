@@ -54,10 +54,12 @@ function initMatomo(Vue, options) {
   if (options.router) {
     const baseUrl = buildBaseUrl(options)
 
+    const baseUrlHasSlash = baseUrl.slice(-1) === '/'
+
     options.router.afterEach((to, from) => {
       // Unfortunately the window location is not yet updated here
       // We need to make our own url using the data provided by the router
-      const url = baseUrl + to.fullPath
+      const url = baseUrl + (baseUrlHasSlash ? to.fullPath.replace(/^\//, '') : to.fullPath)
 
       if (to.meta.analyticsIgnore) {
         options.debug && console.debug('[vue-matomo] Ignoring ' + url)
