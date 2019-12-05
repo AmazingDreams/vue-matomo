@@ -53,7 +53,6 @@ function initMatomo(Vue, options) {
   // Track page navigations if router is specified
   if (options.router) {
     const baseUrl = buildBaseUrl(options)
-
     const baseUrlHasSlash = baseUrl.slice(-1) === '/'
 
     options.router.afterEach((to, from) => {
