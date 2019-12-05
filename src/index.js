@@ -37,8 +37,7 @@ function loadScript (trackerScript) {
   return scriptPromise
 }
 
-
-function initMatomo(Vue, options) {
+function initMatomo (Vue, options) {
   const Matomo = window.Piwik.getAsyncTracker()
 
   // Assign matomo to Vue
@@ -78,7 +77,7 @@ export default function install (Vue, setupOptions = {}) {
 
   const { host, siteId, trackerFileName, trackerUrl } = options
   const trackerScript = `${host}/${trackerFileName}.js`
-  const trackerEndpoint = trackerUrl || `${host}/${trackerFileName}.php`;
+  const trackerEndpoint = trackerUrl || `${host}/${trackerFileName}.php`
 
   window._paq = window._paq || []
 

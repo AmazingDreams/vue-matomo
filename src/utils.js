@@ -1,12 +1,12 @@
-export function buildBaseUrl(options) {
+export function buildBaseUrl (options) {
   const loc = window.location
 
   let routerBase = '/'
   if (options.router.options.base) {
     // Trim '/' at start and end, replace with single '/' at start and end
     routerBase = options.router.options.base
-      .replace(/^[\/]/, '')
-      .replace(/[\/]+$/, '')
+      .replace(/^\//, '')
+      .replace(/\/+$/, '')
 
     routerBase = `/${routerBase}`
   }
