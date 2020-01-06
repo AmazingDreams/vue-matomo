@@ -10,7 +10,9 @@ const defaultOptions = {
   trackInitialView: true,
   trackerFileName: 'matomo',
   trackerUrl: undefined,
-  userId: undefined
+  userId: undefined,
+  cookieDomain: undefined,
+  domains: undefined
 }
 
 function loadScript (trackerScript) {
@@ -92,6 +94,14 @@ export default function install (Vue, setupOptions = {}) {
 
   if (options.enableHeartBeatTimer) {
     window._paq.push(['enableHeartBeatTimer', options.heartBeatTimerInterval])
+  }
+
+  if (options.cookieDomain) {
+    window._paq.push(['setCookieDomain', options.cookieDomain])
+  }
+
+  if (options.domains) {
+    window._paq.push(['setDomains', options.domains])
   }
 
   window._paq.push(['setTrackerUrl', trackerEndpoint])
