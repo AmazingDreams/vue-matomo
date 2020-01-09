@@ -45,6 +45,9 @@
   ],
   "files": [
     "/dist",
-    "/src"
+    "/src",
+    "LICENSE",
+    "README.md",
+    "package.json"
   ]
 }
