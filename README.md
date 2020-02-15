@@ -78,7 +78,25 @@ Vue.use(VueMatomo, {
 
   // UserID passed to Matomo (see https://developer.matomo.org/guides/tracking-javascript-guide#user-id)
   // Default: undefined
-  userId: undefined
+  userId: undefined,
+
+  // Share the tracking cookie across subdomains (see https://developer.matomo.org/guides/tracking-javascript-guide#measuring-domains-andor-sub-domains)
+  // Default: undefined, example '*.example.com'
+  cookieDomain: undefined,
+
+  // Tell Matomo the website domain so that clicks on these domains are not tracked as 'Outlinks'
+  // Default: undefined, example: '*.example.com'
+  domains: undefined
+
+  // A list of pre-initialization actions that run before matomo is loaded
+  // Default: []
+  // Example: [
+  //   ['API_method_name', parameter_list],
+  //   ['setCustomVariable','1','VisitorType','Member'],
+  //   ['appendToTrackingUrl', 'new_visit=1'],
+  //   etc.
+  // ]
+  preInitActions: []
 });
 
 // Now you can access piwik api in components through

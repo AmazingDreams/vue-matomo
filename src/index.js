@@ -10,7 +10,10 @@ const defaultOptions = {
   trackInitialView: true,
   trackerFileName: 'matomo',
   trackerUrl: undefined,
-  userId: undefined
+  userId: undefined,
+  cookieDomain: undefined,
+  domains: undefined,
+  preInitActions: []
 }
 
 function loadScript (trackerScript) {
@@ -74,6 +77,9 @@ export default function install (Vue, setupOptions = {}) {
 
   window._paq = window._paq || []
 
+  window._paq.push(['setTrackerUrl', trackerEndpoint])
+  window._paq.push(['setSiteId', siteId])
+
   if (options.requireConsent) {
     window._paq.push(['requireConsent'])
   }
@@ -94,8 +100,15 @@ export default function install (Vue, setupOptions = {}) {
     window._paq.push(['enableHeartBeatTimer', options.heartBeatTimerInterval])
   }
 
-  window._paq.push(['setTrackerUrl', trackerEndpoint])
-  window._paq.push(['setSiteId', siteId])
+  if (options.cookieDomain) {
+    window._paq.push(['setCookieDomain', options.cookieDomain])
+  }
+
+  if (options.domains) {
+    window._paq.push(['setDomains', options.domains])
+  }
+
+  options.preInitActions.forEach((action) => window._paq.push(action))
 
   loadScript(trackerScript)
     .then(() => initMatomo(Vue, options))
