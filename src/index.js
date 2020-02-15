@@ -113,13 +113,13 @@ export default function install (Vue, setupOptions = {}) {
   loadScript(trackerScript)
     .then(() => initMatomo(Vue, options))
     .catch((error) => {
-      let msg;
-      if (error.target){
-        msg = `[vue-matomo] An error occurred trying to load ${error.target.src}. `
-          + 'If the file exists you may have an ad- or trackingblocker enabled.';
+      if (error.target) {
+        console.error(
+          `[vue-matomo] An error occurred trying to load ${error.target.src}. ` +
+          'If the file exists you may have an ad- or trackingblocker enabled.'
+        )
       } else {
-        msg = error;
+        console.error(error)
       }
-      console.error(msg);
-    });
+    })
 }
