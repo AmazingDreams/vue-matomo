@@ -52,7 +52,12 @@ Vue.use(VueMatomo, {
 
   // User ID
   // Default: undefined
-  userId: 'some-user-id'
+  userId: 'some-user-id',
+
+  preInitActions: [
+    ['setCustomVariable', '1', 'VisitorType', 'Member'],
+    ['appendToTrackingUrl', 'new_visit=1']
+  ]
 })
 
 Vue.config.productionTip = false
@@ -61,6 +66,6 @@ Vue.config.productionTip = false
 new Vue({
   el: '#app',
   router,
-  components: { App },
+  components: {App},
   template: '<App/>'
 })

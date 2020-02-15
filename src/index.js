@@ -12,7 +12,8 @@ const defaultOptions = {
   trackerUrl: undefined,
   userId: undefined,
   cookieDomain: undefined,
-  domains: undefined
+  domains: undefined,
+  preInitActions: []
 }
 
 function loadScript (trackerScript) {
@@ -76,6 +77,9 @@ export default function install (Vue, setupOptions = {}) {
 
   window._paq = window._paq || []
 
+  window._paq.push(['setTrackerUrl', trackerEndpoint])
+  window._paq.push(['setSiteId', siteId])
+
   if (options.requireConsent) {
     window._paq.push(['requireConsent'])
   }
@@ -104,8 +108,7 @@ export default function install (Vue, setupOptions = {}) {
     window._paq.push(['setDomains', options.domains])
   }
 
-  window._paq.push(['setTrackerUrl', trackerEndpoint])
-  window._paq.push(['setSiteId', siteId])
+  options.preInitActions.forEach((action) => window._paq.push(action))
 
   loadScript(trackerScript)
     .then(() => initMatomo(Vue, options))
