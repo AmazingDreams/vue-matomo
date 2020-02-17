@@ -46,6 +46,10 @@ Vue.use(VueMatomo, {
   // Default: undefined
   trackerUrl: undefined,
 
+  // Overrides the tracker script path entirely
+  // Default: undefined
+  trackerScriptUrl: undefined,
+
   // Whether or not to log debug information
   // Default: false
   debug: true,

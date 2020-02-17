@@ -10,6 +10,7 @@ const defaultOptions = {
   trackInitialView: true,
   trackerFileName: 'matomo',
   trackerUrl: undefined,
+  trackerScriptUrl: undefined,
   userId: undefined,
   cookieDomain: undefined,
   domains: undefined,
@@ -71,8 +72,8 @@ function initMatomo (Vue, options) {
 export default function install (Vue, setupOptions = {}) {
   const options = Object.assign({}, defaultOptions, setupOptions)
 
-  const { host, siteId, trackerFileName, trackerUrl } = options
-  const trackerScript = `${host}/${trackerFileName}.js`
+  const { host, siteId, trackerFileName, trackerUrl , trackerScriptUrl} = options
+  const trackerScript = trackerScriptUrl || `${host}/${trackerFileName}.js`
   const trackerEndpoint = trackerUrl || `${host}/${trackerFileName}.php`
 
   window._paq = window._paq || []
