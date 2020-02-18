@@ -72,7 +72,7 @@ function initMatomo (Vue, options) {
 export default function install (Vue, setupOptions = {}) {
   const options = Object.assign({}, defaultOptions, setupOptions)
 
-  const { host, siteId, trackerFileName, trackerUrl , trackerScriptUrl} = options
+  const { host, siteId, trackerFileName, trackerUrl, trackerScriptUrl } = options
   const trackerScript = trackerScriptUrl || `${host}/${trackerFileName}.js`
   const trackerEndpoint = trackerUrl || `${host}/${trackerFileName}.php`
 
