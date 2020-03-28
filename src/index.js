@@ -69,6 +69,27 @@ function initMatomo (Vue, options) {
   }
 }
 
+function piwikExists() {
+  // In case of TMS,  we load a first container_XXX.js which triggers aynchronously the loading of the standard Piwik.js
+  // this will avoid the error throwed in initMatomo when window.Piwik is undefined
+  // if window.Piwik is still undefined when counter reaches 3000ms we reject and go to error
+  const timeout = 50;
+  return new Promise((resolve,reject)=>{
+    let initialNow = Date.now();
+    const interval = setInterval(()=>{
+      if (!!window.Piwik) {
+        clearInterval(interval);
+        return resolve();
+      } else {
+        let now = Date.now();
+        if ( now >= initialNow + 3000){
+          clearInterval(interval);
+          return reject('window.Piwik is undefined');
+        }
+      }}, timeout);
+  })
+}
+
 export default function install (Vue, setupOptions = {}) {
   const options = Object.assign({}, defaultOptions, setupOptions)
 
@@ -112,6 +133,7 @@ export default function install (Vue, setupOptions = {}) {
   options.preInitActions.forEach((action) => window._paq.push(action))
 
   loadScript(trackerScript)
+    .then(() => piwikExists())
     .then(() => initMatomo(Vue, options))
     .catch((error) => {
       if (error.target) {
