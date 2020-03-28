@@ -1,4 +1,4 @@
-import { buildBaseUrl } from './utils'
+import {buildBaseUrl} from './utils'
 
 const defaultOptions = {
   debug: false,
@@ -17,7 +17,7 @@ const defaultOptions = {
   preInitActions: []
 }
 
-function loadScript (trackerScript) {
+function loadScript(trackerScript) {
   const scriptPromise = new Promise((resolve, reject) => {
     const script = document.createElement('script')
     script.async = true
@@ -34,7 +34,7 @@ function loadScript (trackerScript) {
   return scriptPromise
 }
 
-function initMatomo (Vue, options) {
+function initMatomo(Vue, options) {
   const Matomo = window.Piwik.getAsyncTracker()
 
   // Assign matomo to Vue
@@ -73,27 +73,32 @@ function piwikExists() {
   // In case of TMS,  we load a first container_XXX.js which triggers aynchronously the loading of the standard Piwik.js
   // this will avoid the error throwed in initMatomo when window.Piwik is undefined
   // if window.Piwik is still undefined when counter reaches 3000ms we reject and go to error
-  const timeout = 50;
-  return new Promise((resolve,reject)=>{
-    let initialNow = Date.now();
-    const interval = setInterval(()=>{
-      if (!!window.Piwik) {
+
+  return new Promise((resolve, reject) => {
+    const checkInterval = 50;
+    const timeout = 3000;
+    const waitStart = Date.now();
+
+    const interval = setInterval(() => {
+      if (window.Piwik) {
         clearInterval(interval);
+
         return resolve();
-      } else {
-        let now = Date.now();
-        if ( now >= initialNow + 3000){
-          clearInterval(interval);
-          return reject('window.Piwik is undefined');
-        }
-      }}, timeout);
+      }
+
+      if (Date.now() >= waitStart + timeout) {
+        clearInterval(interval);
+
+        reject(`[vue-matomo]: window.Piwik undefined after waiting for ${timeout}ms`);
+      }
+    }, checkInterval);
   })
 }
 
-export default function install (Vue, setupOptions = {}) {
+export default function install(Vue, setupOptions = {}) {
   const options = Object.assign({}, defaultOptions, setupOptions)
 
-  const { host, siteId, trackerFileName, trackerUrl, trackerScriptUrl } = options
+  const {host, siteId, trackerFileName, trackerUrl, trackerScriptUrl} = options
   const trackerScript = trackerScriptUrl || `${host}/${trackerFileName}.js`
   const trackerEndpoint = trackerUrl || `${host}/${trackerFileName}.php`
 
@@ -137,12 +142,12 @@ export default function install (Vue, setupOptions = {}) {
     .then(() => initMatomo(Vue, options))
     .catch((error) => {
       if (error.target) {
-        console.error(
+        return console.error(
           `[vue-matomo] An error occurred trying to load ${error.target.src}. ` +
           'If the file exists you may have an ad- or trackingblocker enabled.'
         )
-      } else {
-        console.error(error)
       }
+
+      console.error(error);
     })
 }
