@@ -64,7 +64,7 @@ function initMatomo(Vue, options) {
       options.debug && console.debug('[vue-matomo] Tracking ' + url)
 
       Matomo.setCustomUrl(url)
-      Matomo.trackPageView()
+      Matomo.trackPageView(to.meta.title)
     })
   }
 }
