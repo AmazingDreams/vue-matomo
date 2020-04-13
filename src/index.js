@@ -34,6 +34,23 @@ function loadScript(trackerScript) {
   return scriptPromise
 }
 
+function trackMatomoPageView (options, Matomo, url) {
+  if (options.router) {
+    const meta = options.router.currentRoute.meta
+    if (meta.analyticsIgnore) {
+      options.debug && console.debug('[vue-matomo] Ignoring ' + url)
+      return
+    }
+
+    options.debug && console.debug('[vue-matomo] Tracking ' + url)
+  }
+
+  if (url) {
+    Matomo.setCustomUrl(url)
+  }
+  Matomo.trackPageView()
+}
+
 function initMatomo(Vue, options) {
   const Matomo = window.Piwik.getAsyncTracker()
 
@@ -43,7 +60,7 @@ function initMatomo(Vue, options) {
 
   if (options.trackInitialView) {
     // Register first page view
-    Matomo.trackPageView()
+    trackMatomoPageView(options, Matomo)
   }
 
   // Track page navigations if router is specified
@@ -55,16 +72,7 @@ function initMatomo(Vue, options) {
       // Unfortunately the window location is not yet updated here
       // We need to make our own url using the data provided by the router
       const url = baseUrl + (baseUrlHasSlash ? to.fullPath.replace(/^\//, '') : to.fullPath)
-
-      if (to.meta.analyticsIgnore) {
-        options.debug && console.debug('[vue-matomo] Ignoring ' + url)
-        return
-      }
-
-      options.debug && console.debug('[vue-matomo] Tracking ' + url)
-
-      Matomo.setCustomUrl(url)
-      Matomo.trackPageView()
+      trackMatomoPageView(options, Matomo, url)
     })
   }
 }
