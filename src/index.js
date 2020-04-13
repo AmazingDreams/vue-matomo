@@ -1,4 +1,4 @@
-import {buildBaseUrl} from './utils'
+import { getMatomo, loadScript } from './utils'
 
 const defaultOptions = {
   debug: false,
@@ -17,42 +17,28 @@ const defaultOptions = {
   preInitActions: []
 }
 
-function loadScript(trackerScript) {
-  const scriptPromise = new Promise((resolve, reject) => {
-    const script = document.createElement('script')
-    script.async = true
-    script.defer = true
-    script.src = trackerScript
+function trackMatomoPageView (options) {
+  let title
 
-    const head = document.head || document.getElementsByTagName('head')[0]
-    head.appendChild(script)
-
-    script.onload = resolve
-    script.onerror = reject
-  })
-
-  return scriptPromise
-}
-
-function trackMatomoPageView (options, Matomo, url) {
   if (options.router) {
+    const url = window.location
     const meta = options.router.currentRoute.meta
+
     if (meta.analyticsIgnore) {
       options.debug && console.debug('[vue-matomo] Ignoring ' + url)
       return
     }
 
     options.debug && console.debug('[vue-matomo] Tracking ' + url)
+
+    title = meta.title
   }
 
-  if (url) {
-    Matomo.setCustomUrl(url)
-  }
-  Matomo.trackPageView()
+  getMatomo().trackPageView(title)
 }
 
-function initMatomo(Vue, options) {
-  const Matomo = window.Piwik.getAsyncTracker()
+function initMatomo (Vue, options) {
+  const Matomo = getMatomo()
 
   // Assign matomo to Vue
   Vue.prototype.$piwik = Matomo
@@ -65,48 +51,48 @@ function initMatomo(Vue, options) {
 
   // Track page navigations if router is specified
   if (options.router) {
-    const baseUrl = buildBaseUrl(options)
-    const baseUrlHasSlash = baseUrl.slice(-1) === '/'
+    options.router.afterEach(() => {
+      Vue.nextTick(() => {
+        trackMatomoPageView(options, Matomo)
 
-    options.router.afterEach((to, from) => {
-      // Unfortunately the window location is not yet updated here
-      // We need to make our own url using the data provided by the router
-      const url = baseUrl + (baseUrlHasSlash ? to.fullPath.replace(/^\//, '') : to.fullPath)
-      trackMatomoPageView(options, Matomo, url)
+        if (options.enableLinkTracking) {
+          Matomo.enableLinkTracking()
+        }
+      })
     })
   }
 }
 
-function piwikExists() {
+function piwikExists () {
   // In case of TMS,  we load a first container_XXX.js which triggers aynchronously the loading of the standard Piwik.js
   // this will avoid the error throwed in initMatomo when window.Piwik is undefined
   // if window.Piwik is still undefined when counter reaches 3000ms we reject and go to error
 
   return new Promise((resolve, reject) => {
-    const checkInterval = 50;
-    const timeout = 3000;
-    const waitStart = Date.now();
+    const checkInterval = 50
+    const timeout = 3000
+    const waitStart = Date.now()
 
     const interval = setInterval(() => {
       if (window.Piwik) {
-        clearInterval(interval);
+        clearInterval(interval)
 
-        return resolve();
+        return resolve()
       }
 
       if (Date.now() >= waitStart + timeout) {
-        clearInterval(interval);
+        clearInterval(interval)
 
-        reject(`[vue-matomo]: window.Piwik undefined after waiting for ${timeout}ms`);
+        throw new Error(`[vue-matomo]: window.Piwik undefined after waiting for ${timeout}ms`)
       }
-    }, checkInterval);
+    }, checkInterval)
   })
 }
 
-export default function install(Vue, setupOptions = {}) {
+export default function install (Vue, setupOptions = {}) {
   const options = Object.assign({}, defaultOptions, setupOptions)
 
-  const {host, siteId, trackerFileName, trackerUrl, trackerScriptUrl} = options
+  const { host, siteId, trackerFileName, trackerUrl, trackerScriptUrl } = options
   const trackerScript = trackerScriptUrl || `${host}/${trackerFileName}.js`
   const trackerEndpoint = trackerUrl || `${host}/${trackerFileName}.php`
 
@@ -156,6 +142,6 @@ export default function install(Vue, setupOptions = {}) {
         )
       }
 
-      console.error(error);
+      console.error(error)
     })
 }

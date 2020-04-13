@@ -10,8 +10,19 @@ export default new Router({
   base: '/',
   mode: 'history',
   routes: [
-    { path: '/', name: 'HelloWorld', component: HelloWorld },
-    { path: '/page-1', name: 'Page1', component: Page1 },
+    {
+      path: '/',
+      name: 'HelloWorld',
+      component: HelloWorld
+    },
+    {
+      path: '/page-1',
+      name: 'Page1',
+      component: Page1,
+      meta: {
+        title: 'Test Page 1 Title'
+      }
+    },
     {
       path: '/page-2',
       name: 'Page2',

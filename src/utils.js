@@ -1,23 +1,18 @@
-export function buildBaseUrl (options) {
-  const loc = window.location
+export function getMatomo () {
+  return window.Piwik.getAsyncTracker()
+}
 
-  let routerBase = '/'
-  if (options.router.options.base) {
-    // Trim '/' at start and end, replace with single '/' at start and end
-    routerBase = options.router.options.base
-      .replace(/^\//, '')
-      .replace(/\/+$/, '')
+export function loadScript (trackerScript) {
+  return new Promise((resolve, reject) => {
+    const script = document.createElement('script')
+    script.async = true
+    script.defer = true
+    script.src = trackerScript
 
-    routerBase = `/${routerBase}`
-  }
+    const head = document.head || document.getElementsByTagName('head')[0]
+    head.appendChild(script)
 
-  // Protocol may or may not contain a colon
-  let protocol = loc.protocol
-  if (protocol.slice(-1) !== ':') {
-    protocol += ':'
-  }
-
-  const maybeHash = options.router.mode === 'hash' ? '/#' : ''
-
-  return protocol + '//' + loc.host + routerBase + maybeHash
+    script.onload = resolve
+    script.onerror = reject
+  })
 }
