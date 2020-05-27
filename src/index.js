@@ -52,6 +52,9 @@ function initMatomo (Vue, options) {
   // Track page navigations if router is specified
   if (options.router) {
     options.router.afterEach((to, from) => {
+      if (from.fullPath === to.fullPath) {
+        return; 
+      }
       Vue.nextTick(() => {
         // Make matomo aware of the route change
         Matomo.setReferrerUrl(from.fullPath)
