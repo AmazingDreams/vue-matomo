@@ -61,7 +61,13 @@ Vue.use(VueMatomo, {
   preInitActions: [
     ['setCustomVariable', '1', 'VisitorType', 'Member'],
     ['appendToTrackingUrl', 'new_visit=1']
-  ]
+  ],
+
+  beforeTrackPageView: (to, from) => {
+    console.log(to.fullPath, from.fullPath)
+
+    return to.fullPath !== from.fullPath
+  }
 })
 
 Vue.config.productionTip = false

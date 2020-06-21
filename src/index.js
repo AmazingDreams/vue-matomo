@@ -14,7 +14,8 @@ const defaultOptions = {
   userId: undefined,
   cookieDomain: undefined,
   domains: undefined,
-  preInitActions: []
+  preInitActions: [],
+  beforeTrackPageView: undefined
 }
 
 function trackMatomoPageView (options) {
@@ -52,16 +53,30 @@ function initMatomo (Vue, options) {
   // Track page navigations if router is specified
   if (options.router) {
     options.router.afterEach((to, from) => {
-      Vue.nextTick(() => {
-        // Make matomo aware of the route change
-        Matomo.setReferrerUrl(from.fullPath)
-        Matomo.setCustomUrl(to.fullPath)
+      let beforeTrackPageView = (typeof options.beforeTrackPageView === 'function')
+        ? options.beforeTrackPageView(to, from)
+        : true
 
-        trackMatomoPageView(options, Matomo)
+      if (typeof beforeTrackPageView === 'boolean') {
+        beforeTrackPageView = Promise.resolve(beforeTrackPageView)
+      }
 
-        if (options.enableLinkTracking) {
-          Matomo.enableLinkTracking()
-        }
+      beforeTrackPageView.then(result => {
+        options.debug && console.debug('Before track page view result', result)
+
+        if (result === false) return
+
+        Vue.nextTick(() => {
+          // Make matomo aware of the route change
+          Matomo.setReferrerUrl(from.fullPath)
+          Matomo.setCustomUrl(to.fullPath)
+
+          trackMatomoPageView(options, Matomo)
+
+          if (options.enableLinkTracking) {
+            Matomo.enableLinkTracking()
+          }
+        })
       })
     })
   }

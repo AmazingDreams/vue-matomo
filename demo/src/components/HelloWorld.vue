@@ -11,6 +11,10 @@
       <router-link :to="{name: 'Page2'}">Page 2 (Untracked)</router-link>
     </p>
     <p>
+      <router-link :to="{ hash: 'update-hash'}" replace>Update Hash</router-link>
+      <router-link :to="{ hash: 'update-hash-2'}" replace>Update Hash 2</router-link>
+    </p>
+    <p>
       <button @click="trackMatomoEvent">
         Fire matomo event
       </button>
