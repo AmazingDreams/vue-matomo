@@ -17,6 +17,8 @@ const defaultOptions = {
   preInitActions: []
 }
 
+export const matomoKey = 'Matomo'
+
 function trackMatomoPageView (options) {
   let title
 
@@ -48,6 +50,7 @@ function initMatomo (Vue, options) {
     // Assign matomo to Vue 3
     Vue.config.globalProperties.$piwik = Matomo
     Vue.config.globalProperties.$matomo = Matomo
+    Vue.provide(matomoKey, Matomo)
   }
 
   if (options.trackInitialView) {
