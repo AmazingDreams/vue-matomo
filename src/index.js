@@ -1,4 +1,4 @@
-import { getMatomo, loadScript } from './utils'
+import { getMatomo, getResolvedHref, loadScript } from './utils'
 
 const defaultOptions = {
   debug: false,
@@ -19,24 +19,42 @@ const defaultOptions = {
 
 export const matomoKey = 'Matomo'
 
-function trackMatomoPageView (options) {
+function trackMatomoPageView (options, to, from) {
+  const Matomo = getMatomo()
+
   let title
+  let url
+  let referrerUrl
 
   if (options.router) {
-    const url = window.location
-    const meta = options.router.currentRoute.meta
+    url = getResolvedHref(options.router, to.fullPath)
+    referrerUrl = from && from.fullPath
+      ? getResolvedHref(options.router, from.fullPath)
+      : undefined
 
-    if (meta.analyticsIgnore) {
+    if (to.meta.analyticsIgnore) {
       options.debug && console.debug('[vue-matomo] Ignoring ' + url)
       return
     }
 
     options.debug && console.debug('[vue-matomo] Tracking ' + url)
-
-    title = meta.title
+    title = to.meta.title
   }
 
-  getMatomo().trackPageView(title)
+  console.log({
+    referrerUrl,
+    url,
+    title,
+  })
+
+  if (referrerUrl) {
+    Matomo.setReferrerUrl(referrerUrl)
+  }
+  if (url) {
+    Matomo.setCustomUrl(url)
+  }
+
+  Matomo.trackPageView(title)
 }
 
 function initMatomo (Vue, options) {
@@ -55,21 +73,19 @@ function initMatomo (Vue, options) {
 
   if (options.trackInitialView) {
     // Register first page view
-    trackMatomoPageView(options, Matomo)
+    trackMatomoPageView(options, options.router.currentRoute)
   }
 
   // Track page navigations if router is specified
   if (options.router) {
     options.router.afterEach((to, from) => {
-      // Make matomo aware of the route change
-      Matomo.setReferrerUrl(from.fullPath)
-      Matomo.setCustomUrl(to.fullPath)
+      Vue.nextTick(() => {
+        trackMatomoPageView(options, to, from)
 
-      trackMatomoPageView(options, Matomo)
-
-      if (options.enableLinkTracking) {
-        Matomo.enableLinkTracking()
-      }
+        if (options.enableLinkTracking) {
+          Matomo.enableLinkTracking()
+        }
+      })
     })
   }
 }

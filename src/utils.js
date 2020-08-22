@@ -16,3 +16,7 @@ export function loadScript (trackerScript) {
     script.onerror = reject
   })
 }
+
+export function getResolvedHref (router, path) {
+  return router.resolve(path).href
+}

@@ -7,7 +7,7 @@ import Page2 from '@/components/Page2'
 Vue.use(Router)
 
 export default new Router({
-  base: '/',
+  base: '/something/',
   mode: 'history',
   routes: [
     {
