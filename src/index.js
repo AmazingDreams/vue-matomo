@@ -41,12 +41,6 @@ function trackMatomoPageView (options, to, from) {
     title = to.meta.title
   }
 
-  console.log({
-    referrerUrl,
-    url,
-    title,
-  })
-
   if (referrerUrl) {
     Matomo.setReferrerUrl(referrerUrl)
   }
