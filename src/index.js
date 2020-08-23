@@ -65,21 +65,24 @@ function initMatomo (Vue, options) {
     Vue.provide(matomoKey, Matomo)
   }
 
-  if (options.trackInitialView) {
+  if (options.trackInitialView && options.router) {
+    // Vue 3 must use currentRoute.value
+    const currentRoute = options.router.currentRoute.value
+      ? options.router.currentRoute.value
+      : options.router.currentRoute
+
     // Register first page view
-    trackMatomoPageView(options, options.router.currentRoute)
+    trackMatomoPageView(options, currentRoute)
   }
 
   // Track page navigations if router is specified
   if (options.router) {
     options.router.afterEach((to, from) => {
-      Vue.nextTick(() => {
-        trackMatomoPageView(options, to, from)
+      trackMatomoPageView(options, to, from)
 
-        if (options.enableLinkTracking) {
-          Matomo.enableLinkTracking()
-        }
-      })
+      if (options.enableLinkTracking) {
+        Matomo.enableLinkTracking()
+      }
     })
   }
 }
