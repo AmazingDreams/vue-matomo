@@ -31,7 +31,7 @@ function trackMatomoPageView (options) {
 
     options.debug && console.debug('[vue-matomo] Tracking ' + url)
 
-    title = meta.title
+    title = meta.title || options.router.currentRoute.path
   }
 
   getMatomo().trackPageView(title)
