@@ -38,7 +38,7 @@ function trackMatomoPageView (options, to, from) {
     }
 
     options.debug && console.debug('[vue-matomo] Tracking ' + url)
-    title = to.meta.title
+    title = to.meta.title || url
   }
 
   if (referrerUrl) {
