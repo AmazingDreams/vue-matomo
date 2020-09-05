@@ -1,4 +1,4 @@
-import { getMatomo, loadScript } from './utils'
+import { getMatomo, getResolvedHref, loadScript } from './utils'
 
 const defaultOptions = {
   debug: false,
@@ -17,52 +17,72 @@ const defaultOptions = {
   preInitActions: []
 }
 
-function trackMatomoPageView (options) {
+export const matomoKey = 'Matomo'
+
+function trackMatomoPageView (options, to, from) {
+  const Matomo = getMatomo()
+
   let title
+  let url
+  let referrerUrl
 
   if (options.router) {
-    const url = window.location
-    const meta = options.router.currentRoute.meta
+    url = getResolvedHref(options.router, to.fullPath)
+    referrerUrl = from && from.fullPath
+      ? getResolvedHref(options.router, from.fullPath)
+      : undefined
 
-    if (meta.analyticsIgnore) {
+    if (to.meta.analyticsIgnore) {
       options.debug && console.debug('[vue-matomo] Ignoring ' + url)
       return
     }
 
     options.debug && console.debug('[vue-matomo] Tracking ' + url)
-
-    title = meta.title
+    title = to.meta.title
   }
 
-  getMatomo().trackPageView(title)
+  if (referrerUrl) {
+    Matomo.setReferrerUrl(referrerUrl)
+  }
+  if (url) {
+    Matomo.setCustomUrl(url)
+  }
+
+  Matomo.trackPageView(title)
 }
 
 function initMatomo (Vue, options) {
   const Matomo = getMatomo()
 
-  // Assign matomo to Vue
-  Vue.prototype.$piwik = Matomo
-  Vue.prototype.$matomo = Matomo
+  if (Vue.prototype) {
+    // Assign matomo to Vue 2
+    Vue.prototype.$piwik = Matomo
+    Vue.prototype.$matomo = Matomo
+  } else {
+    // Assign matomo to Vue 3
+    Vue.config.globalProperties.$piwik = Matomo
+    Vue.config.globalProperties.$matomo = Matomo
+    Vue.provide(matomoKey, Matomo)
+  }
 
-  if (options.trackInitialView) {
+  if (options.trackInitialView && options.router) {
+    // Vue 3 must use currentRoute.value
+    const currentRoute = options.router.currentRoute.value
+      ? options.router.currentRoute.value
+      : options.router.currentRoute
+
     // Register first page view
-    trackMatomoPageView(options, Matomo)
+    trackMatomoPageView(options, currentRoute)
   }
 
   // Track page navigations if router is specified
   if (options.router) {
     options.router.afterEach((to, from) => {
-      Vue.nextTick(() => {
-        // Make matomo aware of the route change
-        Matomo.setReferrerUrl(from.fullPath)
-        Matomo.setCustomUrl(to.fullPath)
+      trackMatomoPageView(options, to, from)
 
-        trackMatomoPageView(options, Matomo)
-
-        if (options.enableLinkTracking) {
-          Matomo.enableLinkTracking()
-        }
-      })
+      if (options.enableLinkTracking) {
+        Matomo.enableLinkTracking()
+      }
     })
   }
 }

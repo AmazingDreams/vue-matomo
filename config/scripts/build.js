@@ -1,12 +1,11 @@
 const base = require('../base.config')
-const merge = require('webpack-merge')
+const { merge } = require('webpack-merge')
 const webpack = require('webpack')
-const pkg = require('../../package.json')
 const ora = require('ora')
 
 const spinner = ora()
 
-const webpackConfig = merge.smart({}, base, {
+const webpackConfig = merge({}, base, {
   mode: 'production',
   target: 'web',
   externals: ['vue'],

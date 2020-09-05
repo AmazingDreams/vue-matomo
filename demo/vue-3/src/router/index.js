@@ -1,14 +1,14 @@
-import Vue from 'vue'
-import Router from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
 import Page1 from '@/components/Page1'
 import Page2 from '@/components/Page2'
 
-Vue.use(Router)
 
-export default new Router({
-  base: '/',
-  mode: 'history',
+const base = '/something/';
+const routerHistory = createWebHistory(base)
+
+export default createRouter({
+  history: routerHistory,
   routes: [
     {
       path: '/',
