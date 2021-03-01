@@ -130,6 +130,18 @@ this.$matomo && this.$matomo.trackPageView()
 window._paq.push(['trackPageView'])
 ```
 
+#### Note on external link tracking
+
+When using the option to `trackExternalLinks`, `vue-matomo` ensures the corresponding Matomo method is called after each navigation event. Matomo scans the entire DOM for external links and adds its link handling. This means that if your external links are rendered dynamically these links may not be picked up. You need to call this method manually if links might not exist after the page has finished rendering (for example if the links come from some REST call). For more information refer to https://developer.matomo.org/guides/spa-tracking#link-tracking
+
+```js
+this.$matomo && this.$matomo.enableLinkTracking()
+
+// Or...
+
+window._paq.push(['enableLinkTracking'])
+```
+
 ### Nuxt
 
 Nuxt can work by creating a plugin that will load VueMatomo with SSR disabled. Note how the router is passed in the second snippet:
