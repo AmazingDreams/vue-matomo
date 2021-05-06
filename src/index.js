@@ -3,6 +3,7 @@ import { getMatomo, getResolvedHref, loadScript } from './utils'
 const defaultOptions = {
   debug: false,
   disableCookies: false,
+  requireCookieConsent: false,
   enableHeartBeatTimer: false,
   enableLinkTracking: true,
   heartBeatTimerInterval: 15,
@@ -139,6 +140,10 @@ export default function install (Vue, setupOptions = {}) {
 
   if (options.disableCookies) {
     window._paq.push(['disableCookies'])
+  }
+
+  if (options.requireCookieConsent) {
+    window._paq.push(['requireCookieConsent'])
   }
 
   if (options.enableHeartBeatTimer) {
