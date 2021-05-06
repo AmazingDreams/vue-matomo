@@ -32,6 +32,10 @@ createApp(App)
     // Default: false
     disableCookies: false,
 
+    // Require consent before creating matomo session cookie
+    // Default: false
+    requireCookieConsent: false,
+
     // Enable the heartbeat timer (https://developer.matomo.org/guides/tracking-javascript-guide#accurately-measure-the-time-spent-on-each-page)
     // Default: false
     enableHeartBeatTimer: true,
