@@ -71,6 +71,10 @@ Vue.use(VueMatomo, {
   // Default: false
   disableCookies: false,
 
+  // Require consent before creating matomo session cookie
+  // Default: false
+  requireCookieConsent: false,
+
   // Enable the heartbeat timer (https://developer.matomo.org/guides/tracking-javascript-guide#accurately-measure-the-time-spent-on-each-page)
   // Default: false
   enableHeartBeatTimer: false,
@@ -184,7 +188,7 @@ It is possible to ignore routes using the route meta:
 }
 ```
 
-### Managing consent
+### Managing tracking consent
 
 First of all load the plugin with the `requireConsent` option enabled:
 
@@ -198,7 +202,7 @@ Vue.use(VueMatomo, {
 Matomo has a built in way to give and remember consent. The simplest way is to simply use this method provided by Matomo:
 
 ```js
-<button @click="handleConsent()">Accept Cookies</button>
+<button @click="handleConsent()">Accept Tracking</button>
 
 handleConsent() {
   this.$matomo.rememberConsentGiven()
@@ -207,6 +211,32 @@ handleConsent() {
 
 Another option is to use your own implementation for remembering consent. In that case you can simply call
 `this.$matomo.setConsentGiven()` on each page load when you establish that the user has given consent.
+
+### Managing cookie consent
+
+You can use Matomo Analytics without consent and cookie banner. For more information see [matomo faq: "How do I use matomo analytics without consent or cookie banner?](https://matomo.org/faq/new-to-piwik/how-do-i-use-matomo-analytics-without-consent-or-cookie-banner/).
+
+First of all load the plugin with the `requireCookieConsent` option enabled:
+
+```js
+Vue.use(VueMatomo, {
+  // ...
+  requireCookieConsent: true
+})
+```
+
+Matomo has a built in way to give and remember consent. The simplest way is to simply use this method provided by Matomo:
+
+```js
+<button @click="handleConsent()">Accept Cookies</button>
+
+handleConsent() {
+  this.$matomo.rememberCookieConsentGiven()
+}
+```
+
+Another option is to use your own implementation for remembering cookie consent. In that case you can simply call
+`this.$matomo.setCookieConsentGiven()` on each page load when you establish that the user has given cookie consent.
 
 ## Build
 
