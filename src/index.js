@@ -55,15 +55,15 @@ function trackMatomoPageView (options, to, from) {
 function initMatomo (Vue, options) {
   const Matomo = getMatomo()
 
-  if (Vue.prototype) {
-    // Assign matomo to Vue 2
-    Vue.prototype.$piwik = Matomo
-    Vue.prototype.$matomo = Matomo
-  } else {
-    // Assign matomo to Vue 3
+  const version = Number(Vue.version.split('.')[0])
+
+  if (version > 2) {
     Vue.config.globalProperties.$piwik = Matomo
     Vue.config.globalProperties.$matomo = Matomo
     Vue.provide(matomoKey, Matomo)
+  } else {
+    Vue.prototype.$piwik = Matomo
+    Vue.prototype.$matomo = Matomo
   }
 
   if (options.trackInitialView && options.router) {
