@@ -107,7 +107,23 @@ Vue.use(VueMatomo, {
   //   ['appendToTrackingUrl', 'new_visit=1'],
   //   etc.
   // ]
-  preInitActions: []
+  preInitActions: [],
+
+  // A function to determine whether to track an interaction as a site search
+  // instead of as a page view. If not a function, all interactions will be
+  // tracked as page views. Receives the new route as an argument, and
+  // returns either an object of keyword, category (optional) and resultsCount
+  // (optional) to track as a site search, or a falsey value to track as a page
+  // view.
+  // Default: false, i.e. track all interactions as page views
+  // Example: (to) => {
+  //   if (to.query.q && to.name === 'search') {
+  //     return { keyword: to.query.q, category: to.params.category }
+  //   } else {
+  //    return null
+  //   }
+  // }
+  trackSiteSearch: false
 });
 
 // Now you can access piwik api in components through
