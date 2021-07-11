@@ -9,6 +9,7 @@ const defaultOptions = {
   heartBeatTimerInterval: 15,
   requireConsent: false,
   trackInitialView: true,
+  trackSiteSearch: false,
   trackerFileName: 'matomo',
   trackerUrl: undefined,
   trackerScriptUrl: undefined,
@@ -19,6 +20,25 @@ const defaultOptions = {
 }
 
 export const matomoKey = 'Matomo'
+
+function trackUserInteraction (options, to, from) {
+  if (typeof options.trackSiteSearch === 'function') {
+    const siteSearch = options.trackSiteSearch(to)
+    if (siteSearch) {
+      trackMatomoSiteSearch(options, siteSearch)
+      return
+    }
+  }
+  trackMatomoPageView(options, to, from)
+}
+
+function trackMatomoSiteSearch (options, { keyword, category, resultsCount }) {
+  const Matomo = getMatomo()
+
+  options.debug && console.debug('[vue-matomo] Site Search ' + keyword)
+
+  Matomo.trackSiteSearch(keyword, category, resultsCount)
+}
 
 function trackMatomoPageView (options, to, from) {
   const Matomo = getMatomo()
@@ -73,13 +93,13 @@ function initMatomo (Vue, options) {
       : options.router.currentRoute
 
     // Register first page view
-    trackMatomoPageView(options, currentRoute)
+    trackUserInteraction(options, currentRoute)
   }
 
   // Track page navigations if router is specified
   if (options.router) {
     options.router.afterEach((to, from) => {
-      trackMatomoPageView(options, to, from)
+      trackUserInteraction(options, to, from)
 
       if (options.enableLinkTracking) {
         Matomo.enableLinkTracking()
