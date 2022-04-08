@@ -123,7 +123,11 @@ Vue.use(VueMatomo, {
   //    return null
   //   }
   // }
-  trackSiteSearch: false
+  trackSiteSearch: false,
+
+  // Set this to include crossorigin attribute on the matomo script import
+  // Default: undefined, possible values : 'anonymous', 'use-credentials'
+  crossOrigin: undefined,
 });
 
 // Now you can access piwik api in components through

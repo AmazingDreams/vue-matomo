@@ -16,7 +16,8 @@ const defaultOptions = {
   userId: undefined,
   cookieDomain: undefined,
   domains: undefined,
-  preInitActions: []
+  preInitActions: [],
+  crossOrigin: undefined
 }
 
 export const matomoKey = 'Matomo'
@@ -180,7 +181,7 @@ export default function install (Vue, setupOptions = {}) {
 
   options.preInitActions.forEach((action) => window._paq.push(action))
 
-  loadScript(trackerScript)
+  loadScript(trackerScript, options.crossOrigin)
     .then(() => piwikExists())
     .then(() => initMatomo(Vue, options))
     .catch((error) => {
