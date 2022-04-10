@@ -64,10 +64,10 @@ function trackMatomoPageView (options, to, from) {
   }
 
   if (referrerUrl) {
-    Matomo.setReferrerUrl(referrerUrl)
+    Matomo.setReferrerUrl(window.location.origin + referrerUrl)
   }
   if (url) {
-    Matomo.setCustomUrl(url)
+    Matomo.setCustomUrl(window.location.origin + url)
   }
 
   Matomo.trackPageView(title)
