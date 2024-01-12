@@ -17,7 +17,9 @@ const defaultOptions = {
   cookieDomain: undefined,
   domains: undefined,
   preInitActions: [],
-  crossOrigin: undefined
+  crossOrigin: undefined,
+  referrerTransform: undefined,
+  urlTransform: undefined
 }
 
 export const matomoKey = 'Matomo'
@@ -60,14 +62,27 @@ function trackMatomoPageView (options, to, from) {
     }
 
     options.debug && console.debug('[vue-matomo] Tracking ' + url)
-    title = to.meta.title || url
+    title = to.meta.title || (typeof options.urlTransform === 'function'
+      ? options.urlTransform(url) : url)
   }
 
   if (referrerUrl) {
-    Matomo.setReferrerUrl(window.location.origin + referrerUrl)
+    let u = window.location.origin + referrerUrl
+    if (typeof options.referrerTransform === 'function') {
+      u = options.referrerTransform(u, referrerUrl)
+    }
+    Matomo.setReferrerUrl(u)
   }
+
   if (url) {
-    Matomo.setCustomUrl(window.location.origin + url)
+    let u = window.location.origin + url
+    if (typeof options.urlTransform === 'function') {
+      u = options.urlTransform(u, url)
+    }
+    Matomo.setCustomUrl(u)
+  } else if (typeof options.urlTransform === 'function') {
+    const u = options.urlTransform(window.location.href)
+    Matomo.setCustomUrl(u)
   }
 
   Matomo.trackPageView(title)

@@ -128,6 +128,21 @@ Vue.use(VueMatomo, {
   // Set this to include crossorigin attribute on the matomo script import
   // Default: undefined, possible values : 'anonymous', 'use-credentials'
   crossOrigin: undefined,
+
+  // Set this to a function that takes the referrer url and transforms it
+  // before sending to Matomo.
+  //
+  // For example:
+  //
+  //     (u) => { return u.split('#')[0]; }
+  //
+  referrerTransform: undefined,
+
+  // Set this to a function that takes the origin url and transforms it
+  // before sending to Matomo.
+  //
+  // See referrerTransform for example.
+  urlTransform: undefined,
 });
 
 // Now you can access piwik api in components through
